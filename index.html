@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContrastLab — Free WCAG Color Contrast Checker</title>
+<meta name="description" content="Check color contrast ratios instantly against WCAG 2.2 AA & AAA standards. Free online contrast checker for text, UI designers and developers — with one-click fixes and accessible palette suggestions.">
+<meta name="keywords" content="color contrast checker, wcag contrast checker, contrast ratio, accessibility checker, AA AAA">
+<meta property="og:title" content="ContrastLab — Free WCAG Color Contrast Checker">
+<meta property="og:description" content="Instant WCAG 2.2 contrast ratio checking with one-click accessible fixes.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://contrastlab.app/">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ContrastLab",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free WCAG 2.2 color contrast ratio checker with automatic accessible-color suggestions."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "What is a good color contrast ratio?",
+     "acceptedAnswer": {"@type": "Answer", "text": "WCAG 2.2 requires a contrast ratio of at least 4.5:1 for normal text (AA) and 7:1 for AAA. Large text (18pt+ or 14pt+ bold) needs 3:1 for AA and 4.5:1 for AAA."}},
+    {"@type": "Question", "name": "How is the contrast ratio calculated?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The ratio is (L1 + 0.05) / (L2 + 0.05), where L1 and L2 are the relative luminances of the lighter and darker colors, computed from sRGB values with gamma correction per WCAG."}},
+    {"@type": "Question", "name": "What is the difference between AA and AAA?",
+     "acceptedAnswer": {"@type": "Answer", "text": "AA is the standard compliance level most regulations reference; AAA is the stricter enhanced level. ContrastLab shows pass/fail for both, for normal and large text."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">ContrastLab</div>
+    <p class="tagline">Free WCAG color contrast checker</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Contrast checker tool">
+    <div class="colors">
+      <div class="color-card">
+        <label for="fg">Text color</label>
+        <div class="picker-row">
+          <input type="color" id="fgPicker" value="#1a1a1a" aria-label="Text color picker">
+          <input type="text" id="fg" value="#1a1a1a" spellcheck="false" aria-label="Text color hex">
+        </div>
+      </div>
+      <div class="mid-actions">
+        <button id="swap" title="Swap colors" aria-label="Swap colors">⇄</button>
+        <button id="random" title="Random pair" aria-label="Random pair">⚄</button>
+      </div>
+      <div class="color-card">
+        <label for="bg">Background color</label>
+        <div class="picker-row">
+          <input type="color" id="bgPicker" value="#ffffff" aria-label="Background color picker">
+          <input type="text" id="bg" value="#ffffff" spellcheck="false" aria-label="Background color hex">
+        </div>
+      </div>
+    </div>
+
+    <div class="result-grid">
+      <div class="ratio-box">
+        <div class="ratio-num" id="ratioNum">--</div>
+        <div class="ratio-label">contrast ratio</div>
+      </div>
+      <div class="grades">
+        <div class="grade" id="gradeNormalAA"><span class="g-name">AA normal text</span><span class="g-need">≥ 4.5:1</span><span class="g-badge">–</span></div>
+        <div class="grade" id="gradeNormalAAA"><span class="g-name">AAA normal text</span><span class="g-need">≥ 7:1</span><span class="g-badge">–</span></div>
+        <div class="grade" id="gradeLargeAA"><span class="g-name">AA large text</span><span class="g-need">≥ 3:1</span><span class="g-badge">–</span></div>
+        <div class="grade" id="gradeLargeAAA"><span class="g-name">AAA large text</span><span class="g-need">≥ 4.5:1</span><span class="g-badge">–</span></div>
+      </div>
+    </div>
+
+    <div class="preview" id="preview" aria-label="Live preview">
+      <h2 id="previewH">The quick brown fox jumps over the lazy dog</h2>
+      <p id="previewP">Pack my box with five dozen liquor jugs. Good design is readable design — check your palette before you ship.</p>
+      <button id="previewBtn">Sample button</button>
+    </div>
+
+    <div class="actions">
+      <button id="fixAA" class="primary">Fix to pass AA</button>
+      <button id="fixAAA">Fix to pass AAA</button>
+      <button id="copyCss">Copy CSS</button>
+    </div>
+    <p class="hint" id="fixHint">“Fix” adjusts the text color’s lightness just enough to pass, keeping your hue.</p>
+  </section>
+
+  <section class="pairs" aria-label="Accessible pair suggestions">
+    <h2>Try an accessible pair</h2>
+    <div class="pair-grid" id="pairGrid"></div>
+  </section>
+
+  <section class="guide" aria-label="Guide">
+    <h2>What is color contrast ratio?</h2>
+    <p>The contrast ratio measures how distinguishable text is from its background, from <strong>1:1</strong> (same color) to <strong>21:1</strong> (black on white). It is calculated from the <em>relative luminance</em> of both colors:</p>
+    <p class="formula">ratio = (L<sub>lighter</sub> + 0.05) / (L<sub>darker</sub> + 0.05)</p>
+    <h2>WCAG 2.2 contrast requirements</h2>
+    <table>
+      <thead><tr><th>Level</th><th>Normal text</th><th>Large text*</th></tr></thead>
+      <tbody>
+        <tr><td><strong>AA</strong> (standard)</td><td>≥ 4.5 : 1</td><td>≥ 3 : 1</td></tr>
+        <tr><td><strong>AAA</strong> (enhanced)</td><td>≥ 7 : 1</td><td>≥ 4.5 : 1</td></tr>
+      </tbody>
+    </table>
+    <p class="note">* Large text = 18pt (24px) or larger, or 14pt (18.66px) bold or larger.</p>
+    <h2>How to use this checker</h2>
+    <ol>
+      <li>Pick a text color and a background color (type a hex code or use the picker).</li>
+      <li>Read the ratio and the AA / AAA pass–fail badges instantly.</li>
+      <li>Preview how real headings, body text and buttons look.</li>
+      <li>If it fails, hit <strong>Fix to pass AA/AAA</strong> — we nudge the lightness until it passes, hue untouched.</li>
+      <li>Copy the CSS and ship accessible UI.</li>
+    </ol>
+  </section>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>What is a good color contrast ratio?</summary>
+      <p>WCAG 2.2 requires at least <strong>4.5:1</strong> for normal text (AA) and <strong>7:1</strong> for AAA. Large text needs 3:1 (AA) / 4.5:1 (AAA).</p></details>
+    <details><summary>How is the contrast ratio calculated?</summary>
+      <p>From the relative luminance of each color: <span class="formula">ratio = (L1 + 0.05) / (L2 + 0.05)</span>, with sRGB gamma correction exactly as WCAG defines it.</p></details>
+    <details><summary>What is the difference between AA and AAA?</summary>
+      <p>AA is the compliance level most laws and policies reference. AAA is stricter. ContrastLab grades both, for normal and large text.</p></details>
+    <details><summary>Is this checker free?</summary>
+      <p>Yes — free forever, no account, runs 100% in your browser. Your colors never leave your device.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Contrast math follows WCAG 2.2.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
