@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://contrastlab.app/sitemap.xml
+Sitemap: https://contrast.mimito6.uk/sitemap.xml
