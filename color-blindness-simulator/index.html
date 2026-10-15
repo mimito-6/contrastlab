@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Blindness Simulator — See Colors as Color-Blind Users Do | ContrastLab</title>
+<meta name="description" content="Free online color blindness simulator. Preview any color or palette as seen with protanopia, deuteranopia, tritanopia, or achromatopsia — instantly in your browser, nothing uploaded.">
+<meta name="keywords" content="color blindness simulator, protanopia simulator, deuteranopia simulator, tritanopia, color vision deficiency, accessibility simulator">
+<meta property="og:title" content="Color Blindness Simulator | ContrastLab">
+<meta property="og:description" content="Preview any color as seen with protanopia, deuteranopia, tritanopia, or achromatopsia — free, instant, in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/color-blindness-simulator">
+<link rel="canonical" href="https://contrast.mimito6.uk/color-blindness-simulator">
+<link rel="stylesheet" href="../styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ContrastLab Color Blindness Simulator",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free color blindness simulator: preview any color or UI palette as seen with protanopia, deuteranopia, tritanopia, or achromatopsia."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "How is color blindness simulated?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Each pixel's RGB values are transformed by a published 3x3 color-vision-deficiency matrix (Machado, Oliveira & Fernandes, 2009) that approximates how the surviving cone types respond. It is a widely used educational approximation, not a clinical model."}},
+    {"@type": "Question", "name": "What is the most common type of color blindness?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Red-green deficiency (protanopia/deuteranopia) is the most common, affecting roughly 1 in 12 men and 1 in 200 women. Tritanopia (blue-yellow) is extremely rare."}},
+    {"@type": "Question", "name": "Is this simulator medically accurate?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. It is a simplified mathematical approximation for design checks. It cannot diagnose color vision deficiency — see an eye-care professional for that."}},
+    {"@type": "Question", "name": "Why should designers simulate color blindness?",
+     "acceptedAnswer": {"@type": "Answer", "text": "About 300 million people worldwide have some color vision deficiency. Simulating your palette catches charts, badges, and error states that communicate by color alone, so you can add a second cue like icons or labels."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">Free color blindness simulator</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator" class="active">Color Blindness Simulator</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Color blindness simulator">
+    <h1 class="page-title">Color Blindness Simulator</h1>
+    <p class="page-intro">Enter any color and see how it looks to people with common types of color vision deficiency. About 1 in 12 men sees color differently — check your palette before you ship.</p>
+
+    <div class="sim-input">
+      <div class="color-card">
+        <label for="simColor">Test color</label>
+        <div class="picker-row">
+          <input type="color" id="simPicker" value="#e53935" aria-label="Test color picker">
+          <input type="text" id="simColor" value="#e53935" spellcheck="false" aria-label="Test color hex">
+        </div>
+      </div>
+      <div class="sev-card">
+        <label for="severity">Severity <span id="sevVal">100%</span></label>
+        <input type="range" id="severity" min="0" max="100" value="100" aria-label="Simulation severity">
+        <div class="sev-hint">100% = full dichromacy · 0% = normal vision</div>
+      </div>
+    </div>
+
+    <div class="sim-grid" id="simGrid"></div>
+
+    <h2 class="sub-h">Test a whole palette</h2>
+    <p class="page-intro small">Eight colors designers reach for most — each simulated at the severity above.</p>
+    <div class="palette-table" id="paletteTable" role="table" aria-label="Palette simulation"></div>
+
+    <h2 class="sub-h">Sample UI under each vision type</h2>
+    <div class="vision-tabs" id="visionTabs" role="tablist" aria-label="Vision type"></div>
+    <div class="ui-preview" id="uiPreview" aria-label="Simulated UI preview"></div>
+    <p class="hint">Tip: red error badges and green success badges are the classic failure — try the preset colors above on your own palette.</p>
+  </section>
+
+  <section class="guide" aria-label="Guide">
+    <h2>How the simulation works</h2>
+    <p>Color vision deficiency is simulated by multiplying each color's RGB channels by a published 3&times;3 transformation matrix — the standard simplified model from Machado, Oliveira &amp; Fernandes (2009), <em>&ldquo;A Physiologically-based Model for Simulation of Color Vision Deficiency&rdquo;</em> (IEEE TVCG). Each matrix redistributes color information to approximate the loss of one cone type. Outputs are clamped to valid RGB ranges; achromatopsia is rendered by luminance (0.299R + 0.587G + 0.114B).</p>
+    <p class="note">This is an educational approximation used by most lightweight simulators, not a clinical model. It cannot diagnose color vision deficiency.</p>
+    <h2>Types of color vision deficiency</h2>
+    <table>
+      <thead><tr><th>Type</th><th>Missing cones</th><th>Effect</th><th>Approx. prevalence</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Protanopia</strong></td><td>L (red)</td><td>Reds look dark; red&ndash;green confusion</td><td>~1.0% of men</td></tr>
+        <tr><td><strong>Deuteranopia</strong></td><td>M (green)</td><td>Red&ndash;green confusion; greens shift yellowish</td><td>~1.1% of men</td></tr>
+        <tr><td><strong>Tritanopia</strong></td><td>S (blue)</td><td>Blue&ndash;yellow confusion</td><td>~0.002% of men (very rare)</td></tr>
+        <tr><td><strong>Achromatopsia</strong></td><td>All</td><td>Total color blindness; luminance only</td><td>~1 in 33,000</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Prevalence figures are commonly cited estimates for full dichromacy; milder &ldquo;anomaly&rdquo; forms are more common.</p>
+    <h2>Designing for color-blind users</h2>
+    <ol>
+      <li>Never communicate by color alone — pair status colors with icons or text labels.</li>
+      <li>Check that your error red still reads as &ldquo;wrong&rdquo; under deuteranopia (it often doesn't).</li>
+      <li>For charts, prefer blue&ndash;orange or blue&ndash;red pairs over red&ndash;green.</li>
+      <li>Run your palette through this simulator at 100% severity before shipping.</li>
+    </ol>
+  </section>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>How is color blindness simulated?</summary>
+      <p>Each color's RGB channels are transformed by a published 3&times;3 matrix (Machado, Oliveira &amp; Fernandes, 2009) approximating how the remaining cone types respond. It's the standard simplified model most educational simulators use — good for design checks, not clinical diagnosis.</p></details>
+    <details><summary>What is the most common type of color blindness?</summary>
+      <p>Red&ndash;green deficiency (protanopia / deuteranopia) — roughly 1 in 12 men and 1 in 200 women have some form. Blue&ndash;yellow deficiency (tritanopia) is extremely rare.</p></details>
+    <details><summary>Is this simulator medically accurate?</summary>
+      <p>No. It's a mathematical approximation for checking designs. If you suspect you have color vision deficiency, see an eye-care professional.</p></details>
+    <details><summary>Why should designers simulate color blindness?</summary>
+      <p>About 300 million people worldwide have some color vision deficiency. Simulating your palette catches charts, badges, and error states that rely on color alone — then you can add a second cue like an icon or label.</p></details>
+    <details><summary>Is my color data uploaded anywhere?</summary>
+      <p>No. Everything runs locally in your browser; no colors, no analytics, no tracking.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Simulation uses the Machado et al. (2009) simplified model.</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a></p>
+  </div>
+</footer>
+
+<script src="simulator.js"></script>
+</body>
+</html>
