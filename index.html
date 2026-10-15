@@ -9,7 +9,8 @@
 <meta property="og:title" content="ContrastLab — Free WCAG Color Contrast Checker">
 <meta property="og:description" content="Instant WCAG 2.2 contrast ratio checking with one-click accessible fixes.">
 <meta property="og:type" content="website">
-<link rel="canonical" href="https://contrastlab.app/">
+<link rel="canonical" href="https://contrast.mimito6.uk/">
+<meta property="og:url" content="https://contrast.mimito6.uk/">
 <link rel="stylesheet" href="styles.css">
 <script type="application/ld+json">
 {
@@ -40,8 +41,12 @@
 <body>
 <header class="site-header">
   <div class="wrap">
-    <div class="brand">ContrastLab</div>
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
     <p class="tagline">Free WCAG color contrast checker</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/" class="active">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+    </nav>
   </div>
 </header>
 
@@ -139,6 +144,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <p>ContrastLab — a free tool for accessible design. Contrast math follows WCAG 2.2.</p>
+    <p class="footer-tools">More tools: <a href="/color-blindness-simulator">Color Blindness Simulator</a></p>
   </div>
 </footer>
 
