@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accessible Color Palette Generator — WCAG-Safe Tints, Shades & Harmonies | ContrastLab</title>
+<meta name="description" content="Free accessible palette generator. Enter a brand color and get tints, shades, and harmonious colors — each with WCAG contrast ratios against white and black, so every pick passes AA.">
+<meta name="keywords" content="accessible color palette generator, wcag palette, color tints and shades generator, accessible color scheme, contrast-safe palette">
+<meta property="og:title" content="Accessible Color Palette Generator | ContrastLab">
+<meta property="og:description" content="Turn one brand color into a full WCAG-safe palette — tints, shades and harmonies with contrast ratios against white and black.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/palette-generator">
+<link rel="canonical" href="https://contrast.mimito6.uk/palette-generator">
+<link rel="stylesheet" href="../styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ContrastLab Accessible Palette Generator",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free accessible palette generator: enter one color, get WCAG contrast-checked tints, shades, and harmonious colors."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "What makes a color palette accessible?",
+     "acceptedAnswer": {\"@type\": \"Answer\", \"text\": \"Text and UI elements must meet WCAG contrast minimums: 4.5:1 for normal text and 3:1 for large text and UI components at AA level. This generator shows each color's contrast ratio against white and black so you can pick combinations that pass before you use them.\"}},
+    {"@type": \"Question\", \"name\": \"How are tints and shades calculated?\",
+     \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Tints are made by mixing the base color toward white, shades by mixing toward black, in sRGB at fixed percentages (10, 25, 50, 75%). It is the same math most CSS color-mix implementations use — simple, predictable, and reproducible in any stylesheet.\"}},
+    {"@type": \"Question\", \"name\": \"What color harmonies does the generator create?\",
+     \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Analogous colors (hue rotated ±30°) and a complementary color (hue rotated 180°) are generated from your base color in HSL space. Analogous palettes feel calm and cohesive; complementary pairs give strong visual contrast.\"}},
+    {"@type": \"Question\", \"name\": \"Is AA enough, or should I aim for AAA?\",
+     \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"AA (4.5:1 for normal text) is the legal and practical standard in most accessibility regulations. AAA (7:1) is the enhanced level — worth it for body text when you can, but many brand palettes cannot reach it on every combination, which is why knowing the ratio for each pair matters.\"}},
+    {"@type": \"Question\", \"name\": \"Is my color data uploaded anywhere?\",
+     \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"No. Everything runs locally in your browser; no colors, no analytics, no tracking.\"}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">Free accessible palette generator</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator" class="active">Palette Generator</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Accessible palette generator">
+    <h1 class="page-title">Accessible Color Palette Generator</h1>
+    <p class="page-intro">Start with one brand color. Get a full palette of tints, shades, and harmonies — every swatch rated with its WCAG contrast ratio against white and black, so you only ship combinations that pass AA.</p>
+
+    <div class="sim-input">
+      <div class="color-card">
+        <label for="pgColor">Base color</label>
+        <div class="picker-row">
+          <input type="color" id="pgPicker" value="#4a6cf7" aria-label="Base color picker">
+          <input type="text" id="pgColor" value="#4a6cf7" spellcheck="false" aria-label="Base color hex">
+        </div>
+      </div>
+      <div class="sev-card">
+        <p class="sev-hint" style="margin-top:0">Click any hex code to copy it.<br>Everything updates live as you pick.</p>
+      </div>
+    </div>
+
+    <h2 class="sub-h">Tints &amp; shades</h2>
+    <p class="page-intro small">Your base color mixed toward white (tints) and black (shades).</p>
+    <div class="pg-grid" id="pgTintsShades"></div>
+
+    <h2 class="sub-h">Harmonies</h2>
+    <p class="page-intro small">Analogous (&plusmn;30&deg;) and complementary colors from the same hue wheel.</p>
+    <div class="pg-grid" id="pgHarmonies"></div>
+    <p class="hint">Tip: dark shades of a blue brand color often keep AA against white body text; light tints make safe page backgrounds. Check the badges before you commit.</p>
+  </section>
+
+  <section class="guide" aria-label="Guide">
+    <h2>How the palette is built</h2>
+    <p>Tints are produced by mixing the base color toward pure white at 10%, 25%, 50%, and 75%; shades by mixing toward pure black at the same steps. The mix happens in sRGB — the same math as CSS <code>color-mix()</code> — so you can reproduce any swatch in a stylesheet with a one-line mix. Harmonies are generated by rotating the base color's hue in HSL space: &plusmn;30&deg; for analogous colors and 180&deg; for the complementary color.</p>
+    <h2>Reading the badges</h2>
+    <p>Each swatch shows its WCAG contrast ratio against white and against black. <strong>AA</strong> (4.5:1) is the minimum for normal text; <strong>AAA</strong> (7:1) is the enhanced level. A failed badge means that combination should not carry body text — use it for decoration, large headings (3:1 minimum), or icons instead.</p>
+    <h2>Design tips</h2>
+    <ol>
+      <li>Need body text on a tinted background? Pick a shade of at least 50% depth — light tints almost never reach 4.5:1 against white text, but they do against their dark shades.</li>
+      <li>For buttons, prefer complementary or dark-shade variants over the base brand color — base brand blues and reds typically sit in the 3&ndash;4.5 zone.</li>
+      <li>Always pair status colors with icons or text labels — never communicate state by color alone.</li>
+      <li>Run your final palette through the <a href="/color-blindness-simulator">color blindness simulator</a> before shipping.</li>
+    </ol>
+  </section>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>What makes a color palette accessible?</summary>
+      <p>Text and UI elements must meet WCAG contrast minimums: 4.5:1 for normal text and 3:1 for large text and UI components at AA level. This generator shows each color's contrast ratio against white and black so you can pick combinations that pass before you use them.</p></details>
+    <details><summary>How are tints and shades calculated?</summary>
+      <p>Tints are made by mixing the base color toward white, shades by mixing toward black, in sRGB at fixed percentages (10, 25, 50, 75%). It's the same math most CSS <code>color-mix()</code> implementations use — simple, predictable, and reproducible in any stylesheet.</p></details>
+    <details><summary>What color harmonies does the generator create?</summary>
+      <p>Analogous colors (hue rotated &plusmn;30&deg;) and a complementary color (hue rotated 180°) are generated from your base color in HSL space. Analogous palettes feel calm and cohesive; complementary pairs give strong visual contrast.</p></details>
+    <details><summary>Is AA enough, or should I aim for AAA?</summary>
+      <p>AA (4.5:1 for normal text) is the legal and practical standard in most accessibility regulations. AAA (7:1) is the enhanced level — worth it for body text when you can, but many brand palettes can't reach it on every combination, which is why knowing the ratio for each pair matters.</p></details>
+    <details><summary>Is my color data uploaded anywhere?</summary>
+      <p>No. Everything runs locally in your browser; no colors, no analytics, no tracking.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Palette math: sRGB mixing and HSL hue rotation.</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a></p>
+  </div>
+</footer>
+
+<script src="palette.js"></script>
+</body>
+</html>
