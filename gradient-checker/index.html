@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gradient Contrast Checker — Is Your Text Readable Over a Gradient? | ContrastLab</title>
+<meta name="description" content="Free gradient contrast checker. Enter gradient colors and a text color — see the WCAG contrast ratio at every point of the gradient, find the weakest spot, and check AA/AAA compliance.">
+<meta name="keywords" content="gradient contrast checker, text over gradient accessibility, wcag gradient background, gradient text readability, contrast ratio along gradient">
+<meta property="og:title" content="Gradient Contrast Checker | ContrastLab">
+<meta property="og:description" content="Text over gradients often fails accessibility. Find the weakest point of your gradient's contrast before you ship.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/gradient-checker">
+<link rel="canonical" href="https://contrast.mimito6.uk/gradient-checker">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gc-banner { border-radius: 12px; padding: 26px 22px; margin: 18px 0 6px; transition: background .15s, color .15s; }
+.gc-banner h2 { margin: 0 0 6px; font-size: 22px; letter-spacing: -.3px; }
+.gc-banner p { margin: 0 0 10px; font-size: 14px; }
+.gc-banner .gc-banner-hex { font-family: ui-monospace, monospace; font-size: 12px; opacity: .85; }
+.gc-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
+.gc-stat { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #fff; }
+.gc-stat .v { font-size: 26px; font-weight: 800; letter-spacing: -.5px; }
+.gc-stat .k { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.gc-strip { display: grid; grid-template-columns: repeat(21, 1fr); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 12px 0 6px; }
+.gc-cell { height: 64px; display: flex; align-items: center; justify-content: center; }
+.gc-cell-r { font-size: 10px; font-weight: 700; font-family: ui-monospace, monospace; }
+@media (max-width: 640px) { .gc-strip { grid-template-columns: repeat(7, 1fr); } .gc-cell { height: 56px; } }
+.gc-quick { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.gc-quick button { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.gc-quick button:hover { border-color: var(--accent); }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ContrastLab Gradient Contrast Checker",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free gradient contrast checker: sample a gradient's colors and score WCAG contrast of a text color at every point, with AA/AAA verdicts."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Why does text over a gradient fail accessibility?",
+     "acceptedAnswer": {"@type": "Answer", "text": "A gradient's color changes along its length, so the contrast ratio changes too. Text that passes at the dark end can fall well below 4.5:1 at the light end. This tool finds the weakest point — your text must be readable everywhere, not just on average."}},
+    {"@type": "Question", "name": "Which verdict should I trust — worst, average, or best contrast?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The worst. Accessibility is about the hardest-to-read part of your design. This checker grades AA and AAA against the minimum contrast ratio along the whole gradient."}},
+    {"@type": "Question", "name": "How is the gradient sampled?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The gradient is linearly interpolated in sRGB between your two colors — the same math browsers use for CSS linear-gradient — and scored at 41 evenly spaced points using the WCAG 2.1 contrast formula."}},
+    {"@type": "Question", "name": "How do I fix a gradient that fails?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Three common fixes: (1) darken the light end or lighten the dark end of the gradient, (2) add a semi-transparent dark overlay behind the text, or (3) keep the gradient decorative and put text on a solid chip or card."}},
+    {"@type": "Question", "name": "Is my gradient data uploaded anywhere?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Everything runs locally in your browser; no colors, no analytics, no tracking."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">Free gradient contrast checker</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker" class="active">Gradient Checker</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Gradient contrast checker">
+    <h1 class="page-title">Gradient Contrast Checker</h1>
+    <p class="page-intro">Text over a gradient only needs one weak spot to fail accessibility. Enter your gradient and text color — the checker scores the WCAG contrast ratio at every point, highlights the weakest stop, and grades AA/AAA against it.</p>
+
+    <div class="sim-input">
+      <div class="color-card">
+        <label for="gcStart">Gradient start</label>
+        <div class="picker-row">
+          <input type="color" id="gcStart" value="#4a6cf7" aria-label="Gradient start picker">
+          <input type="text" id="gcStartText" value="#4a6cf7" spellcheck="false" aria-label="Gradient start hex">
+        </div>
+      </div>
+      <div class="color-card">
+        <label for="gcEnd">Gradient end</label>
+        <div class="picker-row">
+          <input type="color" id="gcEnd" value="#9b4af7" aria-label="Gradient end picker">
+          <input type="text" id="gcEndText" value="#9b4af7" spellcheck="false" aria-label="Gradient end hex">
+        </div>
+      </div>
+      <div class="color-card">
+        <label for="gcText">Text color</label>
+        <div class="picker-row">
+          <input type="color" id="gcText" value="#ffffff" aria-label="Text color picker">
+          <input type="text" id="gcTextText" value="#ffffff" spellcheck="false" aria-label="Text color hex">
+        </div>
+        <div class="gc-quick">
+          <button id="gcWhite" type="button">White text</button>
+          <button id="gcBlack" type="button">Black text</button>
+          <button id="gcSwap" type="button">Swap gradient ends</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="gc-banner" id="gcBanner" role="img" aria-label="Gradient preview with sample text">
+      <h2>Sample text — readable everywhere?</h2>
+      <p>Heroes, banners, and cards love gradients. Your users need to read this at every point, not just the dark side.</p>
+      <span class="gc-banner-hex" id="gcBannerHex"></span>
+    </div>
+
+    <h2 class="sub-h">Weakest &amp; strongest points</h2>
+    <div class="gc-summary">
+      <div class="gc-stat"><div class="v" id="gcMinVal">–</div><div class="k">Weakest contrast<br><span id="gcMinPos"></span></div></div>
+      <div class="gc-stat"><div class="v" id="gcMaxVal">–</div><div class="k">Strongest contrast</div></div>
+      <div class="gc-stat"><div class="v" id="gcAvgVal">–</div><div class="k">Average along gradient</div></div>
+    </div>
+    <div class="grades">
+      <div class="grade"><span class="g-name">AA normal text</span><span class="g-need">needs ≥ 4.5:1</span><span class="g-badge" id="gcAA">–</span></div>
+      <div class="grade"><span class="g-name">AA large text</span><span class="g-need">needs ≥ 3:1</span><span class="g-badge" id="gcAALarge">–</span></div>
+      <div class="grade"><span class="g-name">AAA normal text</span><span class="g-need">needs ≥ 7:1</span><span class="g-badge" id="gcAAA">–</span></div>
+    </div>
+    <p class="hint" id="gcWorstNote" style="margin-top:12px"></p>
+
+    <h2 class="sub-h">Contrast at every stop</h2>
+    <p class="page-intro small">Each cell is a sampled point of your gradient; the number is its contrast ratio against your text color.</p>
+    <div class="gc-strip" id="gcStrip" aria-hidden="true"></div>
+  </section>
+
+  <section class="guide" aria-label="Guide">
+    <h2>Why gradients break contrast</h2>
+    <p>A solid background has one contrast ratio. A gradient has as many as there are pixels — and users read the weakest one. A white headline over a blue-to-light-blue hero can hit 8:1 at the left edge and 1.8:1 at the right. Averaging hides this; the weakest point is what matters. That is why this checker grades against the minimum, not the mean.</p>
+    <h2>Fixing a failing gradient</h2>
+    <ol>
+      <li><strong>Compress the gradient:</strong> darken the light end or lighten the dark end so the weakest stop stays above 4.5:1.</li>
+      <li><strong>Add a scrim:</strong> a semi-transparent dark layer behind the text evens out contrast without killing the gradient look — the standard fix for photo and gradient heroes.</li>
+      <li><strong>Solid fallback:</strong> put the text on a solid chip, card, or overlay band and let the gradient stay purely decorative.</li>
+      <li>Re-check the palette pieces with the <a href="/palette-generator">palette generator</a>, and test the result with the <a href="/color-blindness-simulator">color blindness simulator</a>.</li>
+    </ol>
+    <h2>How the math works</h2>
+    <p>Your two colors are interpolated linearly in sRGB at 41 evenly spaced stops — the same math browsers apply to CSS <code>linear-gradient()</code>. Each stop's contrast against your text color uses the WCAG 2.1 relative luminance formula. No uploads, no tracking: it all runs in your browser.</p>
+  </section>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>Why does text over a gradient fail accessibility?</summary>
+      <p>A gradient's color changes along its length, so the contrast ratio changes too. Text that passes at the dark end can fall well below 4.5:1 at the light end. This tool finds the weakest point — your text must be readable everywhere, not just on average.</p></details>
+    <details><summary>Which verdict should I trust — worst, average, or best contrast?</summary>
+      <p>The worst. Accessibility is about the hardest-to-read part of your design. This checker grades AA and AAA against the minimum contrast ratio along the whole gradient.</p></details>
+    <details><summary>How is the gradient sampled?</summary>
+      <p>The gradient is linearly interpolated in sRGB between your two colors — the same math browsers use for CSS linear-gradient — and scored at 41 evenly spaced points using the WCAG 2.1 contrast formula.</p></details>
+    <details><summary>How do I fix a gradient that fails?</summary>
+      <p>Three common fixes: (1) darken the light end or lighten the dark end of the gradient, (2) add a semi-transparent dark overlay behind the text, or (3) keep the gradient decorative and put text on a solid chip or card.</p></details>
+    <details><summary>Is my gradient data uploaded anywhere?</summary>
+      <p>No. Everything runs locally in your browser; no colors, no analytics, no tracking.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Gradient math: linear sRGB interpolation, WCAG 2.1 contrast.</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a></p>
+  </div>
+</footer>
+
+<script src="gradient.js"></script>
+</body>
+</html>
