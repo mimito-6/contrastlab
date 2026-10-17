@@ -69,6 +69,7 @@
       <a href="/color-blindness-simulator">Color Blindness Simulator</a>
       <a href="/palette-generator">Palette Generator</a>
       <a href="/gradient-checker" class="active">Gradient Checker</a>
+      <a href="/text-over-gradient-guide">How-to Guide</a>
     </nav>
   </div>
 </header>
@@ -141,6 +142,7 @@
       <li><strong>Solid fallback:</strong> put the text on a solid chip, card, or overlay band and let the gradient stay purely decorative.</li>
       <li>Re-check the palette pieces with the <a href="/palette-generator">palette generator</a>, and test the result with the <a href="/color-blindness-simulator">color blindness simulator</a>.</li>
     </ol>
+    <p class="hint">Want the full walkthrough with real before/after numbers? Read the guide: <a href="/text-over-gradient-guide">How to Make Text Readable Over a Gradient</a>.</p>
     <h2>How the math works</h2>
     <p>Your two colors are interpolated linearly in sRGB at 41 evenly spaced stops — the same math browsers apply to CSS <code>linear-gradient()</code>. Each stop's contrast against your text color uses the WCAG 2.1 relative luminance formula. No uploads, no tracking: it all runs in your browser.</p>
   </section>
@@ -163,7 +165,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <p>ContrastLab — a free tool for accessible design. Gradient math: linear sRGB interpolation, WCAG 2.1 contrast.</p>
-    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a></p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a></p>
   </div>
 </footer>
 
