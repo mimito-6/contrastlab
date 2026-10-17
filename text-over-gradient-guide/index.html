@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Make Text Readable Over a Gradient (4 Fixes, Real Numbers) | ContrastLab</title>
+<meta name="description" content="Text over a gradient fails accessibility when a single spot drops below 4.5:1. Learn four fixes — compress the gradient, add a scrim, use a solid chip, or reposition the text — with real WCAG contrast numbers, then check your gradient free.">
+<meta name="keywords" content="text over gradient accessibility, fix low contrast text over gradient, wcag gradient background, gradient text readability, contrast ratio gradient fix, scrim text gradient">
+<meta property="og:title" content="How to Make Text Readable Over a Gradient | ContrastLab">
+<meta property="og:description" content="Four fixes that actually work — compress, scrim, solid chip, reposition — with real WCAG contrast numbers before and after.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/text-over-gradient-guide">
+<link rel="canonical" href="https://contrast.mimito6.uk/text-over-gradient-guide">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.num-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+.num-table th, .num-table td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; }
+.num-table th { background: #f7f7fb; font-weight: 700; }
+.num-table td.mono, .mono { font-family: ui-monospace, monospace; }
+.num-table .fail { color: #b42318; font-weight: 700; }
+.num-table .pass { color: #067647; font-weight: 700; }
+.swatch { display: inline-block; width: 22px; height: 22px; border-radius: 5px; border: 1px solid rgba(0,0,0,.25); vertical-align: -5px; margin-right: 6px; }
+.guide-cta { border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin: 26px 0; background: linear-gradient(135deg, #4a6cf7, #9b4af7); color: #fff; }
+.guide-cta h2 { margin: 0 0 8px; font-size: 20px; color: #fff; }
+.guide-cta p { margin: 0 0 14px; font-size: 14px; opacity: .95; }
+.guide-cta a.btn { display: inline-block; background: #fff; color: #1a1a2e; font-weight: 700; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; }
+.css-snippet { background: #1a1a2e; color: #e6e6f0; border-radius: 10px; padding: 14px 16px; font-family: ui-monospace, monospace; font-size: 13px; overflow-x: auto; margin: 12px 0; white-space: pre; }
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding: 8px 0 8px 30px; position: relative; border-bottom: 1px solid var(--line); }
+.checklist li::before { content: "✓"; position: absolute; left: 4px; color: #067647; font-weight: 800; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Make Text Readable Over a Gradient",
+  "description": "Four fixes for low-contrast text over gradients — compress the gradient, add a scrim, use a solid chip, or reposition the text — with real WCAG contrast numbers.",
+  "author": { "@type": "Organization", "name": "ContrastLab" },
+  "publisher": { "@type": "Organization", "name": "ContrastLab" },
+  "mainEntityOfPage": "https://contrast.mimito6.uk/text-over-gradient-guide",
+  "inLanguage": "en"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Why does gradient text pass in my design tool but fail an accessibility audit?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Design tools usually sample one pixel or the average color. WCAG requires every glyph to contrast with the pixels directly behind it — and on a gradient, every glyph sits on a different color. Auditors score the weakest stop, which is exactly what our gradient checker reports."}},
+    {"@type": "Question", "name": "Can white text over a light gradient ever pass?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Practically no. If the lightest stop can't reach 4.5:1 even with a dark scrim, the gradient can't stay behind the text — use a solid chip or move the text to a darker region. Fixing by adding more and more overlay defeats the point of the gradient."}},
+    {"@type": "Question", "name": "Does text-shadow fix gradient contrast?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Don't rely on it. Shadows are blurred halos that vary across the gradient and can't be measured reliably, so auditors won't accept them as a fix. Use a scrim or a solid chip instead."}},
+    {"@type": "Question", "name": "What's the fastest way to check my gradient?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Use ContrastLab's free gradient contrast checker: enter your two gradient colors and text color, and it scores the WCAG contrast ratio at 41 sampled points, highlights the weakest stop, and grades AA/AAA against it."}},
+    {"@type": "Question", "name": "Will compressing a gradient change my brand colors?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Darkening a stop changes the color you ship, so check brand guidelines first. If the gradient must stay untouched, keep it purely decorative and put the text on a solid chip instead — that's the fix that preserves the design exactly."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">How-to guide: accessible text over gradients</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker">Gradient Checker</a>
+      <a href="/text-over-gradient-guide" class="active">How-to Guide</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="guide">
+    <h1 class="page-title">How to Make Text Readable Over a Gradient</h1>
+    <p class="page-intro">Heroes, banners, and cards love gradients — but text over a gradient only needs <strong>one weak spot</strong> to fail accessibility. This guide shows why it happens and four fixes that actually work, each with real WCAG contrast numbers computed before and after.</p>
+
+    <h2 class="sub-h">The problem: one weak spot fails the whole gradient</h2>
+    <p>A solid background has one contrast ratio. A gradient has as many as there are pixels. Take white text on a purple gradient, sampled at the start, middle, and end (colors interpolated linearly in sRGB, the same math browsers use for CSS <span class="mono">linear-gradient()</span>):</p>
+
+    <table class="num-table">
+      <thead><tr><th>Gradient stop</th><th>White text contrast</th><th>WCAG AA (≥ 4.5:1)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="swatch" style="background:#4a6cf7"></span><span class="mono">#4A6CF7</span> (start)</td><td class="mono">4.39:1</td><td class="fail">Fail</td></tr>
+        <tr><td><span class="swatch" style="background:#725bf7"></span><span class="mono">#725BF7</span> (middle)</td><td class="mono">4.61:1</td><td class="pass">Pass</td></tr>
+        <tr><td><span class="swatch" style="background:#9b4af7"></span><span class="mono">#9B4AF7</span> (end)</td><td class="mono">4.45:1</td><td class="fail">Fail</td></tr>
+      </tbody>
+    </table>
+    <p>The middle passes, both ends fail — and because every glyph must be readable, <strong>the whole thing fails</strong>. Averaging hides this. Accessibility is graded on the weakest point, never the mean. Now the fixes.</p>
+
+    <h2 class="sub-h">Fix 1 — Compress the gradient</h2>
+    <p>Darken the lighter stop (or lighten the darker one) so the weakest stop clears 4.5:1. Darkening both stops of the example to <span class="swatch" style="background:#3b55d6"></span><span class="mono">#3B55D6</span> → <span class="swatch" style="background:#5a2bd6"></span><span class="mono">#5A2BD6</span>:</p>
+    <table class="num-table">
+      <thead><tr><th>Compressed stop</th><th>White text contrast</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">#3B55D6</span> (start)</td><td class="mono">6.08:1</td><td class="pass">AA</td></tr>
+        <tr><td><span class="mono">#4A40D6</span> (middle)</td><td class="mono">7.01:1</td><td class="pass">AA + AAA</td></tr>
+        <tr><td><span class="mono">#5A2BD6</span> (end)</td><td class="mono">7.63:1</td><td class="pass">AA + AAA</td></tr>
+      </tbody>
+    </table>
+    <p>The gradient keeps its purple character, and every stop now passes AA. Trade-off: you are shipping slightly different colors — check brand guidelines before darkening.</p>
+    <div class="css-snippet">background: linear-gradient(135deg, #3B55D6, #5A2BD6);</div>
+
+    <h2 class="sub-h">Fix 2 — Add a scrim behind the text</h2>
+    <p>A semi-transparent dark layer behind the text evens out contrast without killing the gradient — the standard fix for photo and gradient heroes. A 50% black scrim over the middle stop <span class="mono">#725BF7</span> produces <span class="swatch" style="background:#392e7c"></span><span class="mono">#392E7C</span>, on which white text scores <strong>11.32:1</strong> — a comfortable AAA pass.</p>
+    <div class="css-snippet">.hero-text {
+  background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5));
+  /* layer it behind the text, over the gradient */
+}</div>
+    <p>Tip: a scrim only needs to cover the text area. A full-bleed overlay darkens more of the design than necessary.</p>
+
+    <h2 class="sub-h">Fix 3 — Put the text on a solid chip</h2>
+    <p>If the gradient must stay pixel-perfect (brand colors, marketing art), keep it purely decorative and put the text on a solid card or chip. White text on a <span class="swatch" style="background:#16162b"></span><span class="mono">#16162B</span> chip scores <strong>17.74:1</strong> — AAA with headroom to spare. This is the only fix that preserves the original design exactly.</p>
+
+    <h2 class="sub-h">Fix 4 — Reposition the text (works only sometimes)</h2>
+    <p>If part of your gradient already passes, move the text there. In our example the darkest stop reaches only 4.61:1 — barely AA, nowhere near AAA — so repositioning alone can't rescue this gradient. Treat it as a finishing touch after one of the fixes above, not a fix on its own.</p>
+
+    <h2 class="sub-h">Quick checklist before you ship</h2>
+    <ul class="checklist">
+      <li>Score <strong>every stop</strong> of the gradient, not just the endpoints.</li>
+      <li>Grade AA/AAA against the <strong>weakest</strong> stop.</li>
+      <li>Re-check after any design tweak — one hue change can move the weakest spot.</li>
+      <li>Run the result through the <a href="/color-blindness-simulator">color blindness simulator</a> — gradients that rely on hue shifts can vanish for some users.</li>
+      <li>Check the palette pieces with the <a href="/palette-generator">palette generator</a> if you compressed the gradient.</li>
+    </ul>
+
+    <div class="guide-cta">
+      <h2>Check your gradient in 10 seconds</h2>
+      <p>Enter your gradient colors and text color — the free checker scores 41 sampled stops, finds the weakest point, and grades AA/AAA against it.</p>
+      <a class="btn" href="/gradient-checker">Open the Gradient Contrast Checker</a>
+    </div>
+  </article>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>Why does gradient text pass in my design tool but fail an accessibility audit?</summary>
+      <p>Design tools usually sample one pixel or the average color. WCAG requires every glyph to contrast with the pixels directly behind it — and on a gradient, every glyph sits on a different color. Auditors score the weakest stop, which is exactly what our gradient checker reports.</p></details>
+    <details><summary>Can white text over a light gradient ever pass?</summary>
+      <p>Practically no. If the lightest stop can't reach 4.5:1 even with a dark scrim, the gradient can't stay behind the text — use a solid chip or move the text to a darker region. Adding more and more overlay just defeats the point of the gradient.</p></details>
+    <details><summary>Does text-shadow fix gradient contrast?</summary>
+      <p>Don't rely on it. Shadows are blurred halos that vary across the gradient and can't be measured reliably, so auditors won't accept them as a fix. Use a scrim or a solid chip instead.</p></details>
+    <details><summary>What's the fastest way to check my gradient?</summary>
+      <p>Use ContrastLab's free <a href="/gradient-checker">gradient contrast checker</a>: enter your two gradient colors and text color, and it scores the WCAG contrast ratio at 41 sampled points, highlights the weakest stop, and grades AA/AAA against it.</p></details>
+    <details><summary>Will compressing a gradient change my brand colors?</summary>
+      <p>Darkening a stop changes the color you ship, so check brand guidelines first. If the gradient must stay untouched, keep it purely decorative and put the text on a solid chip instead — the fix that preserves the design exactly.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Guide numbers: WCAG 2.1 contrast formula, sRGB linear interpolation.</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a></p>
+  </div>
+</footer>
+</body>
+</html>
