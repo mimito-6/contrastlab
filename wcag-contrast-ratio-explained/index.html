@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WCAG Contrast Ratio Explained: What 4.5:1, 3:1 and 7:1 Really Mean | ContrastLab</title>
+<meta name="description" content="What is a WCAG contrast ratio, how is it calculated, and what do the 4.5:1, 3:1 and 7:1 thresholds actually require? Worked examples with real numbers — including the gray that barely passes and the red that fails.">
+<meta name="keywords" content="wcag contrast ratio explained, what is contrast ratio, 4.5:1 contrast ratio, 3:1 large text contrast, 7:1 AAA contrast, how to calculate contrast ratio, wcag AA AAA thresholds">
+<meta property="og:title" content="WCAG Contrast Ratio Explained | ContrastLab">
+<meta property="og:description" content="The 4.5:1, 3:1 and 7:1 thresholds, the luminance formula, and worked examples with real numbers — no guesswork.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/wcag-contrast-ratio-explained">
+<link rel="canonical" href="https://contrast.mimito6.uk/wcag-contrast-ratio-explained">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.num-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+.num-table th, .num-table td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; }
+.num-table th { background: #f7f7fb; font-weight: 700; }
+.num-table td.mono, .mono { font-family: ui-monospace, monospace; }
+.num-table .fail { color: #b42318; font-weight: 700; }
+.num-table .pass { color: #067647; font-weight: 700; }
+.swatch { display: inline-block; width: 22px; height: 22px; border-radius: 5px; border: 1px solid rgba(0,0,0,.25); vertical-align: -5px; margin-right: 6px; }
+.guide-cta { border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin: 26px 0; background: linear-gradient(135deg, #1a1a2e, #3b55d6); color: #fff; }
+.guide-cta h2 { margin: 0 0 8px; font-size: 20px; color: #fff; }
+.guide-cta p { margin: 0 0 14px; font-size: 14px; opacity: .95; }
+.guide-cta a.btn { display: inline-block; background: #fff; color: #1a1a2e; font-weight: 700; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; }
+.formula { background: #f7f7fb; border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-family: ui-monospace, monospace; font-size: 14px; overflow-x: auto; margin: 12px 0; text-align: center; }
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding: 8px 0 8px 30px; position: relative; border-bottom: 1px solid var(--line); }
+.checklist li::before { content: "✓"; position: absolute; left: 4px; color: #067647; font-weight: 800; }
+.demo-line { border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; margin: 10px 0; font-size: 18px; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "WCAG Contrast Ratio Explained: What 4.5:1, 3:1 and 7:1 Really Mean",
+  "description": "What a WCAG contrast ratio is, how it is calculated from relative luminance, what the AA and AAA thresholds require, and worked examples with real numbers.",
+  "author": { "@type": "Organization", "name": "ContrastLab" },
+  "publisher": { "@type": "Organization", "name": "ContrastLab" },
+  "mainEntityOfPage": "https://contrast.mimito6.uk/wcag-contrast-ratio-explained",
+  "inLanguage": "en"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "What is a good contrast ratio for text?",
+     "acceptedAnswer": {"@type": "Answer", "text": "At least 4.5:1 for normal text (WCAG AA) and at least 3:1 for large text. 7:1 is the stricter AAA level for normal text. Anything below 3:1 fails for text of any size."}},
+    {"@type": "Question", "name": "How is a contrast ratio calculated?",
+     "acceptedAnswer": {"@type": "Answer", "text": "From the relative luminance of the two colors: ratio = (L1 + 0.05) / (L2 + 0.05), where L1 is the lighter color's luminance and L2 the darker one's. Luminance weights green most (0.7152), then red (0.2126), then blue (0.0722), after converting sRGB to linear light."}},
+    {"@type": "Question", "name": "What counts as large text for the 3:1 threshold?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Text at least 18 point (about 24px), or 14 point (about 18.66px) bold. Everything smaller is normal text and needs 4.5:1 at AA level."}},
+    {"@type": "Question", "name": "Does 4.5:1 mean the colors look very different?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Not necessarily. The ratio measures luminance difference, not hue difference. Pure red on pure yellow looks strikingly different yet scores only 3.72:1 — it fails AA for normal text. Never judge contrast by eye."}},
+    {"@type": "Question", "name": "What is the fastest way to check my own color pair?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Use ContrastLab's free contrast checker: enter your foreground and background colors and it computes the exact WCAG ratio and grades it against AA and AAA instantly."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">How-to guide: understanding the WCAG contrast ratio</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker">Gradient Checker</a>
+      <a href="/text-over-gradient-guide">How-to Guide</a>
+      <a href="/wcag-contrast-ratio-explained" class="active">Ratio Guide</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="guide">
+    <h1 class="page-title">WCAG Contrast Ratio Explained: What 4.5:1, 3:1 and 7:1 Really Mean</h1>
+    <p class="page-intro">Every accessibility audit comes down to one number: the contrast ratio between your text and its background. This guide explains what that number is, how it is calculated, what the WCAG thresholds actually require — and shows worked examples with real numbers, so you never have to guess again.</p>
+
+    <h2 class="sub-h">The ratio, in one formula</h2>
+    <p>A contrast ratio compares the <strong>relative luminance</strong> of two colors — roughly, how much light each one reflects. The lighter color goes on top:</p>
+    <div class="formula">ratio = (L<sub>lighter</sub> + 0.05) / (L<sub>darker</sub> + 0.05)</div>
+    <p>Luminance is not brightness as your eye perceives a slider: each sRGB channel is first converted to linear light, then weighted — green counts most (0.7152), then red (0.2126), then blue (0.0722). That weighting is why a vivid blue can be darker, in ratio terms, than a muted green that looks similar. The result runs from <strong>1:1</strong> (identical colors) to <strong>21:1</strong> (black on white, the maximum).</p>
+
+    <h2 class="sub-h">The thresholds you actually need</h2>
+    <table class="num-table">
+      <thead><tr><th>Level</th><th>Normal text</th><th>Large text</th><th>Non-text (icons, borders, focus indicators)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>WCAG AA</strong> (the usual legal / procurement bar)</td><td class="mono">≥ 4.5:1</td><td class="mono">≥ 3:1</td><td class="mono">≥ 3:1</td></tr>
+        <tr><td><strong>WCAG AAA</strong> (enhanced)</td><td class="mono">≥ 7:1</td><td class="mono">≥ 4.5:1</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>"Large text" means at least 18pt (about 24px), or 14pt (about 18.66px) bold. Everything smaller is normal text. Note the trap: AAA for large text (4.5:1) is exactly AA for normal text — the same pair can be AAA at headline size and merely AA in body copy.</p>
+
+    <h2 class="sub-h">Worked example: the gray that barely passes</h2>
+    <p>Medium gray <span class="swatch" style="background:#767676"></span><span class="mono">#767676</span> on white has a relative luminance of 0.1812. Plug it in:</p>
+    <div class="formula">(1.00 + 0.05) / (0.1812 + 0.05) = 4.54:1</div>
+    <p>That <strong>passes AA for normal text — by 0.04</strong>. One shade lighter and it fails. This is why placeholder text and secondary labels, usually set in exactly this gray range, are the most common audit failure on otherwise clean sites:</p>
+    <table class="num-table">
+      <thead><tr><th>Gray on white</th><th>Ratio</th><th>Verdict for normal text</th></tr></thead>
+      <tbody>
+        <tr><td><span class="swatch" style="background:#aaaaaa"></span><span class="mono">#AAAAAA</span></td><td class="mono">2.32:1</td><td class="fail">Fail (even fails large text)</td></tr>
+        <tr><td><span class="swatch" style="background:#767676"></span><span class="mono">#767676</span></td><td class="mono">4.54:1</td><td class="pass">AA — barely</td></tr>
+        <tr><td><span class="swatch" style="background:#595959"></span><span class="mono">#595959</span></td><td class="mono">7.00:1</td><td class="pass">AAA</td></tr>
+      </tbody>
+    </table>
+    <p>The fix ladder is simple: darken the text one step at a time until the ratio clears your target with margin — do not ship a 4.54:1 pair and hope nobody re-measures it. A comfortable target is 7:1 for body text if you can get there without wrecking the design.</p>
+
+    <h2 class="sub-h">Common pairs, scored honestly</h2>
+    <p>All ratios below are computed with the WCAG 2.1 formula, not estimated:</p>
+    <table class="num-table">
+      <thead><tr><th>Pair</th><th>Ratio</th><th>Normal text</th><th>Large text</th></tr></thead>
+      <tbody>
+        <tr><td>White on <span class="swatch" style="background:#0055cc"></span><span class="mono">#0055CC</span> (link blue)</td><td class="mono">6.62:1</td><td class="pass">AA</td><td class="pass">AAA</td></tr>
+        <tr><td>White on <span class="swatch" style="background:#0066cc"></span><span class="mono">#0066CC</span></td><td class="mono">5.57:1</td><td class="pass">AA</td><td class="pass">AAA</td></tr>
+        <tr><td>White on <span class="swatch" style="background:#1a7f37"></span><span class="mono">#1A7F37</span> (success green)</td><td class="mono">5.08:1</td><td class="pass">AA</td><td class="pass">AAA</td></tr>
+        <tr><td>White on <span class="swatch" style="background:#b42318"></span><span class="mono">#B42318</span> (error red)</td><td class="mono">6.57:1</td><td class="pass">AA</td><td class="pass">AAA</td></tr>
+        <tr><td>Black on <span class="swatch" style="background:#ffd700"></span><span class="mono">#FFD700</span> (gold)</td><td class="mono">14.97:1</td><td class="pass">AAA</td><td class="pass">AAA</td></tr>
+        <tr><td><span class="swatch" style="background:#e53935"></span><span class="mono">#E53935</span> on white (bright red)</td><td class="mono">4.23:1</td><td class="fail">Fail</td><td class="pass">AA</td></tr>
+        <tr><td><span class="swatch" style="background:#ff0000"></span><span class="mono">#FF0000</span> on <span class="swatch" style="background:#ffff00"></span><span class="mono">#FFFF00</span></td><td class="mono">3.72:1</td><td class="fail">Fail</td><td class="pass">AA</td></tr>
+      </tbody>
+    </table>
+    <p>Two lessons hide in that table. First, saturated brand colors are not automatically safe: bright red <span class="mono">#E53935</span> on white fails AA for body text despite looking bold and clear. Second, <strong>hue difference is not contrast</strong>: pure red on pure yellow screams visually, yet scores only 3.72:1 because their luminances are close. If you judge contrast by eye, you will ship failures.</p>
+
+    <h2 class="sub-h">See it, don't just read it</h2>
+    <div class="demo-line" style="color:#767676; background:#ffffff;">Gray #767676 on white — 4.54:1, passes AA by a hair.</div>
+    <div class="demo-line" style="color:#e53935; background:#ffffff;">Red #E53935 on white — 4.23:1, fails AA for normal text.</div>
+    <div class="demo-line" style="color:#ffffff; background:#0055cc;">White on #0055CC — 6.62:1, a solid AA pass.</div>
+
+    <h2 class="sub-h">Quick checklist before you ship</h2>
+    <ul class="checklist">
+      <li>Score <strong>every</strong> text color against its actual background — including disabled states, placeholders, and captions.</li>
+      <li>Target AA (4.5:1) as the floor and AAA (7:1) for body text where the design allows it.</li>
+      <li>Never judge by eye: check red-on-yellow style hue pairs, which deceive the eye most.</li>
+      <li>Re-check after any color tweak — one hex digit can move a borderline pair across the line.</li>
+      <li>Run the result through the <a href="/color-blindness-simulator">color blindness simulator</a> — a pair can pass the ratio and still be indistinguishable for some users if it relies on hue alone.</li>
+      <li>Building a palette? Check every swatch against white and black in the <a href="/palette-generator">palette generator</a>.</li>
+    </ul>
+
+    <div class="guide-cta">
+      <h2>Check your own colors in 10 seconds</h2>
+      <p>Enter any foreground and background color — the free checker computes the exact WCAG ratio and grades it against AA and AAA.</p>
+      <a class="btn" href="/">Open the Contrast Checker</a>
+    </div>
+  </article>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>What is a good contrast ratio for text?</summary>
+      <p>At least 4.5:1 for normal text (WCAG AA) and at least 3:1 for large text. 7:1 is the stricter AAA level for normal text. Anything below 3:1 fails for text of any size.</p></details>
+    <details><summary>How is a contrast ratio calculated?</summary>
+      <p>From the relative luminance of the two colors: ratio = (L1 + 0.05) / (L2 + 0.05), where L1 is the lighter color's luminance and L2 the darker one's. Luminance weights green most (0.7152), then red (0.2126), then blue (0.0722), after converting sRGB to linear light.</p></details>
+    <details><summary>What counts as large text for the 3:1 threshold?</summary>
+      <p>Text at least 18pt (about 24px), or 14pt (about 18.66px) bold. Everything smaller is normal text and needs 4.5:1 at AA level.</p></details>
+    <details><summary>Does 4.5:1 mean the colors look very different?</summary>
+      <p>Not necessarily. The ratio measures luminance difference, not hue difference. Pure red on pure yellow looks strikingly different yet scores only 3.72:1 — it fails AA for normal text. Never judge contrast by eye.</p></details>
+    <details><summary>What is the fastest way to check my own color pair?</summary>
+      <p>Use ContrastLab's free <a href="/">contrast checker</a>: enter your foreground and background colors and it computes the exact WCAG ratio and grades it against AA and AAA instantly.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Guide numbers: WCAG 2.1 contrast formula, computed from relative luminance.</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a></p>
+  </div>
+</footer>
+</body>
+</html>
