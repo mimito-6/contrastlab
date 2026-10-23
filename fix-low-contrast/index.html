@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Fix Low Contrast Text: 5 Fixes With Real Numbers | ContrastLab</title>
+<meta name="description" content="Your text failed the WCAG contrast check. Here are 5 fixes that actually work — darken the text, darken the background, flip to a light tint, add a scrim, or enlarge to large text — each shown with before-and-after ratios computed with the WCAG formula.">
+<meta name="keywords" content="how to fix low contrast, fix contrast ratio, improve text contrast, wcag contrast fix, darken text for accessibility, contrast scrim">
+<meta property="og:title" content="How to Fix Low Contrast Text | ContrastLab">
+<meta property="og:description" content="Five fixes for failing contrast, each with before-and-after ratios computed with the WCAG formula — no guesswork.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/fix-low-contrast">
+<link rel="canonical" href="https://contrast.mimito6.uk/fix-low-contrast">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.num-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+.num-table th, .num-table td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; }
+.num-table th { background: #f7f7fb; font-weight: 700; }
+.num-table td.mono, .mono { font-family: ui-monospace, monospace; }
+.num-table .fail { color: #b42318; font-weight: 700; }
+.num-table .pass { color: #067647; font-weight: 700; }
+.swatch { display: inline-block; width: 22px; height: 22px; border-radius: 5px; border: 1px solid rgba(0,0,0,.25); vertical-align: -5px; margin-right: 6px; }
+.guide-cta { border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin: 26px 0; background: linear-gradient(135deg, #1a1a2e, #3b55d6); color: #fff; }
+.guide-cta h2 { margin: 0 0 8px; font-size: 20px; color: #fff; }
+.guide-cta p { margin: 0 0 14px; font-size: 14px; opacity: .95; }
+.guide-cta a.btn { display: inline-block; background: #fff; color: #1a1a2e; font-weight: 700; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; }
+.demo-line { border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; margin: 10px 0; font-size: 18px; }
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding: 8px 0 8px 30px; position: relative; border-bottom: 1px solid var(--line); }
+.checklist li::before { content: "✓"; position: absolute; left: 4px; color: #067647; font-weight: 800; }
+code { font-family: ui-monospace, monospace; font-size: 13px; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Fix Low Contrast Text: 5 Fixes With Real Numbers",
+  "description": "Five practical fixes for text that fails WCAG contrast: darken the text, darken the background, flip to a dark-on-light tint, add a scrim over images, or enlarge to large text — each with before-and-after ratios.",
+  "author": { "@type": "Organization", "name": "ContrastLab" },
+  "publisher": { "@type": "Organization", "name": "ContrastLab" },
+  "mainEntityOfPage": "https://contrast.mimito6.uk/fix-low-contrast",
+  "inLanguage": "en"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "What is the fastest way to fix low contrast text?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Darken the text one or two steps until the ratio clears 4.5:1 with margin. For example, gray #9CA3AF on white scores 2.54:1, but #6B7280 scores 4.83:1 (AA) and #4B5563 scores 7.56:1 (AAA) — the same design, just darker text."}},
+    {"@type": "Question", "name": "Does making text bold fix a contrast failure?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Only if the text becomes genuinely large text: at least 18pt (about 24px), or 14pt (about 18.66px) bold, which lowers the AA bar from 4.5:1 to 3:1. Bold body copy at normal size does not change the requirement."}},
+    {"@type": "Question", "name": "How do I fix white text over a photo or gradient?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Add a dark scrim (a translucent black overlay) or put the text on a solid chip. White on a mid-blue photo color #7A9CC6 scores 2.84:1; a 30% black scrim darkens it to #556D8B for 5.32:1 (AA), and a 50% scrim reaches #3D4E63 for 8.51:1 (AAA)."}},
+    {"@type": "Question", "name": "Should I aim for exactly 4.5:1?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No — aim above it with margin. A pair at 4.54:1 passes today and fails after the next designer tweaks one hex digit. 7:1 (AAA) for body text, or at least 5:1, leaves room for future edits."}},
+    {"@type": "Question", "name": "Can I keep my brand color and still pass?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Often yes, by darkening the brand color for text use while keeping the bright version for large fills and icons. White on brand blue #60A5FA scores 2.54:1, but white on the darker #2563EB scores 5.17:1 — same hue family, passing text."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">How-to guide: fixing contrast failures</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker">Gradient Checker</a>
+      <a href="/text-over-gradient-guide">How-to Guide</a>
+      <a href="/wcag-contrast-ratio-explained">Ratio Guide</a>
+      <a href="/fix-low-contrast" class="active">Fix Low Contrast</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="guide">
+    <h1 class="page-title">How to Fix Low Contrast Text: 5 Fixes With Real Numbers</h1>
+    <p class="page-intro">Your audit flagged a pair at 2.5:1 and now you need a fix that does not wreck the design. Good news: most failures are fixed by moving <em>one</em> color a few steps, not by redesigning the page. Every number below is computed with the WCAG 2.1 formula, so you can copy the exact hex values with confidence.</p>
+
+    <h2 class="sub-h">Fix 1: Darken the text (the usual winner)</h2>
+    <p>Light gray body text is the single most common failure. The fix is a darker gray — same look, passing ratio:</p>
+    <table class="num-table">
+      <thead><tr><th>Gray on white</th><th>Ratio</th><th>Verdict (normal text)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="swatch" style="background:#9ca3af"></span><span class="mono">#9CA3AF</span></td><td class="mono">2.54:1</td><td class="fail">Fail</td></tr>
+        <tr><td><span class="swatch" style="background:#6b7280"></span><span class="mono">#6B7280</span></td><td class="mono">4.83:1</td><td class="pass">AA pass</td></tr>
+        <tr><td><span class="swatch" style="background:#4b5563"></span><span class="mono">#4B5563</span></td><td class="mono">7.56:1</td><td class="pass">AAA pass</td></tr>
+      </tbody>
+    </table>
+    <p>One step (<span class="mono">#6B7280</span>) already clears AA; two steps (<span class="mono">#4B5563</span>) clears AAA and buys margin against future tweaks. Do not ship a pair that passes by 0.04 — aim for 5:1 or better.</p>
+    <div class="demo-line" style="color:#9ca3af; background:#ffffff;">#9CA3AF on white — 2.54:1, fails.</div>
+    <div class="demo-line" style="color:#4b5563; background:#ffffff;">#4B5563 on white — 7.56:1, AAA.</div>
+
+    <h2 class="sub-h">Fix 2: Darken the background (for white text on brand color)</h2>
+    <p>Bright brand colors make cheerful buttons and unreadable labels. Keep the hue family, darken the fill used behind text:</p>
+    <table class="num-table">
+      <thead><tr><th>White on blue</th><th>Ratio</th><th>Verdict (normal text)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="swatch" style="background:#60a5fa"></span><span class="mono">#60A5FA</span></td><td class="mono">2.54:1</td><td class="fail">Fail</td></tr>
+        <tr><td><span class="swatch" style="background:#3b82f6"></span><span class="mono">#3B82F6</span></td><td class="mono">3.68:1</td><td class="fail">Fail (large text only)</td></tr>
+        <tr><td><span class="swatch" style="background:#2563eb"></span><span class="mono">#2563EB</span></td><td class="mono">5.17:1</td><td class="pass">AA pass</td></tr>
+      </tbody>
+    </table>
+    <p>The same ladder works for amber: white on <span class="mono">#F59E0B</span> is 2.15:1, on <span class="mono">#D97706</span> is 3.19:1 (large text only), and on <span class="mono">#B45309</span> is 5.02:1 (AA). The bright version can stay for large fills and icons — reserve the dark version for text.</p>
+
+    <h2 class="sub-h">Fix 3: Flip it — dark text on a light tint</h2>
+    <p>Sometimes the brand color simply cannot go dark enough without looking wrong. Flip the pair instead: use the brand color as <em>text</em> on its own pale tint.</p>
+    <div class="demo-line" style="color:#ffffff; background:#60a5fa;">White on #60A5FA — 2.54:1, fails.</div>
+    <div class="demo-line" style="color:#1e40af; background:#dbeafe;">#1E40AF on #DBEAFE — 7.15:1, AAA.</div>
+    <p>Dark blue <span class="mono">#1E40AF</span> on pale blue <span class="mono">#DBEAFE</span> scores <strong>7.15:1 (AAA)</strong> while staying unmistakably blue. This flip is the standard fix for badges, tags, and alert banners.</p>
+
+    <h2 class="sub-h">Fix 4: Add a scrim over photos and gradients</h2>
+    <p>White text directly on a photo fails wherever the photo is light. A translucent black overlay (scrim) darkens everything behind the text evenly:</p>
+    <table class="num-table">
+      <thead><tr><th>White over photo color #7A9CC6</th><th>Resulting bg</th><th>Ratio</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>No scrim</td><td><span class="mono">#7A9CC6</span></td><td class="mono">2.84:1</td><td class="fail">Fail</td></tr>
+        <tr><td>30% black scrim</td><td><span class="mono">#556D8B</span></td><td class="mono">5.32:1</td><td class="pass">AA pass</td></tr>
+        <tr><td>50% black scrim</td><td><span class="mono">#3D4E63</span></td><td class="mono">8.51:1</td><td class="pass">AAA pass</td></tr>
+      </tbody>
+    </table>
+    <p>In CSS: <code>background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(photo.jpg)</code>. If a scrim would ruin the photo, put the text on a solid chip instead — a dark rounded rectangle behind the text always scores exactly what the checker says it does. For gradients specifically, see the <a href="/text-over-gradient-guide">text-over-gradient guide</a> and check the weakest point with the <a href="/gradient-checker">gradient checker</a>.</p>
+
+    <h2 class="sub-h">Fix 5: Enlarge to large text — only when it truly is large</h2>
+    <p>Large text (at least 18pt / about 24px, or 14pt / about 18.66px bold) only needs 3:1 at AA. That rescues some pairs legitimately:</p>
+    <div class="demo-line" style="color:#e53935; background:#ffffff;">Red #E53935 on white — 4.23:1: fails normal text, passes large text.</div>
+    <p>But this is the most abused fix in accessibility. Bold body copy at normal size is <em>not</em> large text, and bumping a failing paragraph to 24px just to pass is a design change, not a fix. Use this only for text that was already meant to be a headline.</p>
+
+    <h2 class="sub-h">What not to do</h2>
+    <ul class="checklist">
+      <li>Do not judge by eye — hue difference deceives (red on yellow looks loud, scores 3.72:1).</li>
+      <li>Do not rely on the "disabled" excuse for text users still need to read.</li>
+      <li>Do not ship a 4.54:1 pair and hope nobody re-measures it — one hex digit of drift breaks it.</li>
+      <li>Do not fix only the flagged pair — re-check placeholders, captions, error text, and hover states, which usually share the same failing gray.</li>
+      <li>Do not stop at the ratio — run the fixed pair through the <a href="/color-blindness-simulator">color blindness simulator</a>, since a passing pair can still rely on hue alone.</li>
+    </ul>
+
+    <div class="guide-cta">
+      <h2>Verify your fix in 10 seconds</h2>
+      <p>Enter the before and after colors — the free checker computes the exact WCAG ratio and grades it against AA and AAA.</p>
+      <a class="btn" href="/">Open the Contrast Checker</a>
+    </div>
+  </article>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>What is the fastest way to fix low contrast text?</summary>
+      <p>Darken the text one or two steps until the ratio clears 4.5:1 with margin. Gray #9CA3AF on white scores 2.54:1, but #6B7280 scores 4.83:1 (AA) and #4B5563 scores 7.56:1 (AAA).</p></details>
+    <details><summary>Does making text bold fix a contrast failure?</summary>
+      <p>Only if the text becomes genuinely large text: at least 18pt (about 24px), or 14pt (about 18.66px) bold, which lowers the AA bar from 4.5:1 to 3:1. Bold body copy at normal size does not change the requirement.</p></details>
+    <details><summary>How do I fix white text over a photo or gradient?</summary>
+      <p>Add a dark scrim or put the text on a solid chip. White on a mid-blue photo color #7A9CC6 scores 2.84:1; a 30% black scrim darkens it to #556D8B for 5.32:1 (AA), and a 50% scrim reaches #3D4E63 for 8.51:1 (AAA).</p></details>
+    <details><summary>Should I aim for exactly 4.5:1?</summary>
+      <p>No — aim above it with margin. A pair at 4.54:1 passes today and fails after the next designer tweaks one hex digit. 7:1 (AAA) for body text, or at least 5:1, leaves room for future edits.</p></details>
+    <details><summary>Can I keep my brand color and still pass?</summary>
+      <p>Often yes, by darkening the brand color for text use while keeping the bright version for large fills and icons. White on brand blue #60A5FA scores 2.54:1, but white on the darker #2563EB scores 5.17:1.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Guide numbers: WCAG 2.1 contrast formula, computed from relative luminance.</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a> &middot; <a href="/wcag-contrast-ratio-explained">Ratio Guide</a></p>
+  </div>
+</footer>
+</body>
+</html>
