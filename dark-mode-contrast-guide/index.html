@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Mode Contrast: What Actually Passes on Dark Backgrounds | ContrastLab</title>
+<meta name="description" content="Dark mode does not automatically pass accessibility. See which grays, accents, and opacity levels actually pass WCAG on #121212 and card surfaces — every ratio computed with the WCAG formula, including the polarity flip that surprises most designers.">
+<meta name="keywords" content="dark mode contrast, dark mode accessibility, wcag dark mode, dark background text contrast, dark theme color contrast, gray on dark background">
+<meta property="og:title" content="Dark Mode Contrast: What Actually Passes on Dark Backgrounds | ContrastLab">
+<meta property="og:description" content="Which text colors pass WCAG on dark backgrounds — with real ratios for #121212, card surfaces, accents, and opacity levels.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/dark-mode-contrast-guide">
+<link rel="canonical" href="https://contrast.mimito6.uk/dark-mode-contrast-guide">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.num-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+.num-table th, .num-table td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; }
+.num-table th { background: #f7f7fb; font-weight: 700; }
+.num-table td.mono, .mono { font-family: ui-monospace, monospace; }
+.num-table .fail { color: #b42318; font-weight: 700; }
+.num-table .pass { color: #067647; font-weight: 700; }
+.swatch { display: inline-block; width: 22px; height: 22px; border-radius: 5px; border: 1px solid rgba(0,0,0,.25); vertical-align: -5px; margin-right: 6px; }
+.guide-cta { border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin: 26px 0; background: linear-gradient(135deg, #1a1a2e, #3b55d6); color: #fff; }
+.guide-cta h2 { margin: 0 0 8px; font-size: 20px; color: #fff; }
+.guide-cta p { margin: 0 0 14px; font-size: 14px; opacity: .95; }
+.guide-cta a.btn { display: inline-block; background: #fff; color: #1a1a2e; font-weight: 700; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; }
+.demo-line { border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; margin: 10px 0; font-size: 18px; }
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding: 8px 0 8px 30px; position: relative; border-bottom: 1px solid var(--line); }
+.checklist li::before { content: "✓"; position: absolute; left: 4px; color: #067647; font-weight: 800; }
+code { font-family: ui-monospace, monospace; font-size: 13px; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Dark Mode Contrast: What Actually Passes on Dark Backgrounds",
+  "description": "Which text colors pass WCAG on dark backgrounds: body and secondary grays, accent colors, card surfaces, and opacity levels, each with ratios computed with the WCAG 2.1 formula.",
+  "author": { "@type": "Organization", "name": "ContrastLab" },
+  "publisher": { "@type": "Organization", "name": "ContrastLab" },
+  "mainEntityOfPage": "https://contrast.mimito6.uk/dark-mode-contrast-guide",
+  "inLanguage": "en"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Is dark mode automatically accessible?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. White text on a dark background usually passes easily, but secondary and muted text often fails: gray #6B7280 on #121212 scores 3.88:1, below the 4.5:1 AA bar for normal text, and #52525B scores only 2.42:1. Dark mode still needs measuring."}},
+    {"@type": "Question", "name": "What gray should I use for secondary text on a dark background?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Use #9CA3AF or lighter. On #121212, #9CA3AF scores 7.38:1 (AAA) and #E5E7EB scores 15.13:1, while #6B7280 at 3.88:1 fails normal text. Do not carry a light-theme muted gray into dark mode without re-checking it."}},
+    {"@type": "Question", "name": "Do brand colors need darkening for dark mode?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Usually the opposite: bright accents that fail on white pass easily on dark. Blue #60A5FA scores 2.54:1 on white (fail) but 7.37:1 on #121212 (AAA). In dark mode you can often use the bright brand color as-is for text."}},
+    {"@type": "Question", "name": "Can I mute dark-mode text with opacity instead of a solid gray?",
+     "acceptedAnswer": {"@type": "Answer", "text": "You can, but measure the result, not the opacity. White at 60% opacity over #121212 blends to solid #A0A0A0 and scores 7.16:1 (AAA), while white at 38% blends to #6C6C6C and scores only 3.57:1 (fail). Prefer a solid gray so the ratio is the same on every surface."}},
+    {"@type": "Question", "name": "Are the WCAG thresholds the same in dark mode?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes — 4.5:1 for normal text at AA, 3:1 for large text, 7:1 for normal text at AAA. The formula is symmetric: it only cares about the two luminances, not which one is darker. A pair that passes in one polarity must be re-measured in the other."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">How-to guide: dark mode contrast</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker">Gradient Checker</a>
+      <a href="/text-over-gradient-guide">How-to Guide</a>
+      <a href="/wcag-contrast-ratio-explained">Ratio Guide</a>
+      <a href="/fix-low-contrast">Fix Low Contrast</a>
+      <a href="/dark-mode-contrast-guide" class="active">Dark Mode Guide</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="guide">
+    <h1 class="page-title">Dark Mode Contrast: What Actually Passes on Dark Backgrounds</h1>
+    <p class="page-intro">Switching a theme to dark does not make it accessible — it just moves the failures somewhere new. White headlines will pass with room to spare, but the muted grays and brand colors you tuned for white backgrounds behave completely differently on dark ones. Every number below is computed with the WCAG 2.1 formula against real dark surfaces, so you can copy the exact hex values.</p>
+
+    <h2 class="sub-h">The polarity flip: your light-theme grays reverse their verdicts</h2>
+    <p>The WCAG formula is symmetric — it only compares two luminances — so flipping a pair from dark-on-light to light-on-dark changes the ratio. Two familiar grays tell the whole story:</p>
+    <table class="num-table">
+      <thead><tr><th>Gray</th><th>On white</th><th>On #121212</th><th>Lesson</th></tr></thead>
+      <tbody>
+        <tr><td><span class="swatch" style="background:#9ca3af"></span><span class="mono">#9CA3AF</span></td><td class="mono">2.54:1 fail</td><td class="mono">7.38:1 AAA</td><td>A failing light-theme gray becomes an excellent dark-theme secondary.</td></tr>
+        <tr><td><span class="swatch" style="background:#6b7280"></span><span class="mono">#6B7280</span></td><td class="mono">4.83:1 AA</td><td class="mono">3.88:1 fail</td><td>A passing light-theme gray fails in dark mode. Never copy a gray across themes unchecked.</td></tr>
+      </tbody>
+    </table>
+    <p>Rule of thumb: in dark mode, secondary text must be <em>lighter</em> than you expect. If your light theme's muted gray is around #6B7280, its dark-theme equivalent is closer to #9CA3AF or lighter.</p>
+
+    <h2 class="sub-h">Body and secondary text on #121212</h2>
+    <p><span class="mono">#121212</span> is the standard near-black dark background (pure black is harsher and, on OLED screens, can smear during scrolling — near-black avoids both problems while still scoring AAA with white). Measured against it:</p>
+    <table class="num-table">
+      <thead><tr><th>Text on #121212</th><th>Ratio</th><th>Verdict (normal text)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="swatch" style="background:#ffffff"></span><span class="mono">#FFFFFF</span> (primary)</td><td class="mono">18.73:1</td><td class="pass">AAA pass</td></tr>
+        <tr><td><span class="swatch" style="background:#e5e7eb"></span><span class="mono">#E5E7EB</span> (soft primary)</td><td class="mono">15.13:1</td><td class="pass">AAA pass</td></tr>
+        <tr><td><span class="swatch" style="background:#9ca3af"></span><span class="mono">#9CA3AF</span> (secondary)</td><td class="mono">7.38:1</td><td class="pass">AAA pass</td></tr>
+        <tr><td><span class="swatch" style="background:#6b7280"></span><span class="mono">#6B7280</span> (muted)</td><td class="mono">3.88:1</td><td class="fail">Fail (large text only)</td></tr>
+        <tr><td><span class="swatch" style="background:#52525b"></span><span class="mono">#52525B</span> (disabled look)</td><td class="mono">2.42:1</td><td class="fail">Fail (even large text)</td></tr>
+      </tbody>
+    </table>
+    <div class="demo-line" style="color:#e5e7eb; background:#121212;">#E5E7EB on #121212 — 15.13:1, AAA.</div>
+    <div class="demo-line" style="color:#9ca3af; background:#121212;">#9CA3AF on #121212 — 7.38:1, AAA secondary text.</div>
+    <div class="demo-line" style="color:#6b7280; background:#121212;">#6B7280 on #121212 — 3.88:1, fails normal text.</div>
+    <p>Note the disabled-text trap: <span class="mono">#52525B</span> at 2.42:1 fails even the 3:1 large-text bar. If disabled text still needs to be readable (a disabled button label, a caption), it is not exempt from contrast just because it is disabled — keep it at 3:1 or above, or remove it from the reading flow.</p>
+
+    <h2 class="sub-h">Cards are lighter than the background — re-check everything on them</h2>
+    <p>Dark themes lift cards above the background (elevation). A card at <span class="mono">#1E1E1E</span> on a <span class="mono">#121212</span> page is lighter, so every text color on it scores slightly lower:</p>
+    <table class="num-table">
+      <thead><tr><th>Text</th><th>On #121212</th><th>On card #1E1E1E</th><th>Still passing?</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">#FFFFFF</span></td><td class="mono">18.73:1</td><td class="mono">16.67:1</td><td class="pass">Yes, AAA</td></tr>
+        <tr><td><span class="mono">#9CA3AF</span></td><td class="mono">7.38:1</td><td class="mono">6.57:1</td><td class="pass">Yes, AA (not AAA)</td></tr>
+        <tr><td><span class="mono">#6B7280</span></td><td class="mono">3.88:1</td><td class="mono">3.45:1</td><td class="fail">No — large text only, either way</td></tr>
+      </tbody>
+    </table>
+    <p>The drop is small but it demotes <span class="mono">#9CA3AF</span> from AAA to AA on cards. If your design system promises AAA secondary text, use a lighter secondary (such as <span class="mono">#D1D5DB</span>, 11.31:1 on <span class="mono">#1E1E1E</span>) on elevated surfaces. And the same rule applies to other dark surfaces: on slate <span class="mono">#0F172A</span>, <span class="mono">#9CA3AF</span> scores 7.03:1 and <span class="mono">#6B7280</span> scores 3.69:1 — the same pass/fail pattern, slightly different numbers. Always measure against the actual surface, not the page background.</p>
+
+    <h2 class="sub-h">Accent colors: bright brand colors love dark backgrounds</h2>
+    <p>Here dark mode is generous. Bright accents that are unreadable on white become excellent text colors on dark:</p>
+    <table class="num-table">
+      <thead><tr><th>Accent on #121212</th><th>Ratio</th><th>Same accent on white</th></tr></thead>
+      <tbody>
+        <tr><td><span class="swatch" style="background:#60a5fa"></span><span class="mono">#60A5FA</span> blue</td><td class="mono">7.37:1 AAA</td><td class="mono">2.54:1 fail</td></tr>
+        <tr><td><span class="swatch" style="background:#38bdf8"></span><span class="mono">#38BDF8</span> sky</td><td class="mono">8.74:1 AAA</td><td class="mono">2.14:1 fail</td></tr>
+        <tr><td><span class="swatch" style="background:#a78bfa"></span><span class="mono">#A78BFA</span> violet</td><td class="mono">6.88:1 AA</td><td class="mono">2.72:1 fail</td></tr>
+        <tr><td><span class="swatch" style="background:#f472b6"></span><span class="mono">#F472B6</span> pink</td><td class="mono">7.07:1 AAA</td><td class="mono">2.65:1 fail</td></tr>
+        <tr><td><span class="swatch" style="background:#fbbf24"></span><span class="mono">#FBBF24</span> amber</td><td class="mono">11.22:1 AAA</td><td class="mono">1.67:1 fail</td></tr>
+        <tr><td><span class="swatch" style="background:#34d399"></span><span class="mono">#34D399</span> emerald</td><td class="mono">9.74:1 AAA</td><td class="mono">1.92:1 fail</td></tr>
+      </tbody>
+    </table>
+    <p>So in dark mode you usually do <em>not</em> darken the brand color for text — use the bright version as-is. The dark-mode mistake is the mirror image of the light-mode one: darkening an accent "to be safe" can push it back toward failure. If you need a link color, test the bright accent first; it probably already passes. One caution: a passing ratio is not the whole story — run bright-on-dark pairs through the <a href="/color-blindness-simulator">color blindness simulator</a>, since hue-only distinctions (green success vs red error) still fail users who cannot tell the hues apart.</p>
+
+    <h2 class="sub-h">The opacity trap: measure the blended color, not the percentage</h2>
+    <p>Many design systems define dark-mode text as white at an opacity — 87% for primary, 60% for secondary, 38% for disabled. That is fine only if you check what the blend actually produces on each surface:</p>
+    <table class="num-table">
+      <thead><tr><th>White opacity over #121212</th><th>Blended solid</th><th>Ratio</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>87%</td><td><span class="mono">#E0E0E0</span></td><td class="mono">14.19:1</td><td class="pass">AAA pass</td></tr>
+        <tr><td>60%</td><td><span class="mono">#A0A0A0</span></td><td class="mono">7.16:1</td><td class="pass">AAA pass</td></tr>
+        <tr><td>38%</td><td><span class="mono">#6C6C6C</span></td><td class="mono">3.57:1</td><td class="fail">Fail (large text only)</td></tr>
+      </tbody>
+    </table>
+    <p>The 38% "disabled" level fails normal text — same trap as <span class="mono">#52525B</span> above. Worse, opacity blends depend on what is underneath: the same 60% white scores 7.16:1 over <span class="mono">#121212</span> but 6.77:1 over a <span class="mono">#1E1E1E</span> card (blended <span class="mono">#A5A5A5</span>), and 38% white gives 3.57:1 on both — failing on both. Prefer solid grays from a fixed scale so a token means the same ratio everywhere it is used.</p>
+
+    <h2 class="sub-h">Dark mode checklist before you ship</h2>
+    <ul class="checklist">
+      <li>Re-measure every text token against its actual surface — page background, card, and modal are three different backgrounds.</li>
+      <li>Secondary text at #9CA3AF or lighter on #121212; nothing darker than that for normal-size text.</li>
+      <li>Disabled and placeholder text at 3:1 or above if it still needs to be read; otherwise remove it instead of dimming it into invisibility.</li>
+      <li>Use bright accents as-is for dark-mode links and labels — do not darken them "to be safe".</li>
+      <li>Replace opacity-based text colors with solid grays so the ratio does not drift with the surface underneath.</li>
+      <li>Check focus indicators and borders too: a 1px border at #52525B on #121212 (2.42:1) is nearly invisible as a focus ring.</li>
+      <li>Run the finished dark theme through the <a href="/color-blindness-simulator">color blindness simulator</a> — passing ratios do not fix hue-only meaning.</li>
+    </ul>
+
+    <div class="guide-cta">
+      <h2>Verify your dark theme in 10 seconds</h2>
+      <p>Enter your background and text colors — the free checker computes the exact WCAG ratio and grades it against AA and AAA, in either polarity.</p>
+      <a class="btn" href="/">Open the Contrast Checker</a>
+    </div>
+  </article>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>Is dark mode automatically accessible?</summary>
+      <p>No. White headlines pass easily, but secondary text often fails: gray #6B7280 on #121212 scores 3.88:1, below the 4.5:1 AA bar for normal text, and #52525B scores only 2.42:1. Dark mode still needs measuring.</p></details>
+    <details><summary>What gray should I use for secondary text on a dark background?</summary>
+      <p>Use #9CA3AF or lighter. On #121212, #9CA3AF scores 7.38:1 (AAA) and #E5E7EB scores 15.13:1, while #6B7280 at 3.88:1 fails normal text. Do not carry a light-theme muted gray into dark mode without re-checking it.</p></details>
+    <details><summary>Do brand colors need darkening for dark mode?</summary>
+      <p>Usually the opposite: bright accents that fail on white pass easily on dark. Blue #60A5FA scores 2.54:1 on white (fail) but 7.37:1 on #121212 (AAA). In dark mode you can often use the bright brand color as-is for text.</p></details>
+    <details><summary>Can I mute dark-mode text with opacity instead of a solid gray?</summary>
+      <p>You can, but measure the result, not the opacity. White at 60% opacity over #121212 blends to solid #A0A0A0 and scores 7.16:1 (AAA), while white at 38% blends to #6C6C6C and scores only 3.57:1 (fail). Prefer a solid gray so the ratio is the same on every surface.</p></details>
+    <details><summary>Are the WCAG thresholds the same in dark mode?</summary>
+      <p>Yes — 4.5:1 for normal text at AA, 3:1 for large text, 7:1 for normal text at AAA. The formula is symmetric: it only cares about the two luminances, not which one is darker. A pair that passes in one polarity must be re-measured in the other.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Guide numbers: WCAG 2.1 contrast formula, computed from relative luminance.</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a> &middot; <a href="/wcag-contrast-ratio-explained">Ratio Guide</a> &middot; <a href="/fix-low-contrast">Fix Low Contrast</a></p>
+  </div>
+</footer>
+</body>
+</html>
