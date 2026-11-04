@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palette Contrast Matrix — Check Every Text/Background Pair at Once | ContrastLab</title>
+<meta name="description" content="Free palette contrast matrix checker. Enter up to 6 palette colors and see the WCAG contrast ratio of every text-on-background pair, with AA/AAA verdicts, so no combination in your design system ships unreadable.">
+<meta name="keywords" content="palette contrast checker, color palette accessibility matrix, wcag color combinations, design system contrast, accessible palette checker">
+<meta property="og:title" content="Palette Contrast Matrix | ContrastLab">
+<meta property="og:description" content="One palette, every pair checked: enter up to 6 colors and see which text-on-background combinations pass AA and AAA.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/palette-contrast-matrix">
+<link rel="canonical" href="https://contrast.mimito6.uk/palette-contrast-matrix">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.mx-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
+.mx-table-wrap { overflow-x: auto; margin: 16px 0; }
+.mx-table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 13px; }
+.mx-table th, .mx-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: center; background: #fff; }
+.mx-table th { font-size: 12px; white-space: nowrap; }
+.mx-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--line); vertical-align: -2px; margin-right: 6px; }
+.mx-table td span { font-size: 11px; font-weight: 700; }
+.mx-aaa { background: #dcfce7 !important; }
+.mx-aa { background: #fef9c3 !important; }
+.mx-fail { background: #fee2e2 !important; }
+.mx-diag { color: var(--muted); }
+.mx-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 16px 0; }
+.mx-stat { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #fff; }
+.mx-stat .v { font-size: 24px; font-weight: 800; letter-spacing: -.5px; }
+.mx-stat .k { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.mx-preset { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.mx-preset:hover { border-color: var(--accent); }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ContrastLab Palette Contrast Matrix",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free palette contrast matrix: enter up to 6 colors and score the WCAG contrast ratio of every text-on-background pair, with AA/AAA verdicts."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Why check every pair, not just text on white?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Design systems reuse the same colors as text, backgrounds, buttons, and badges. A blue that is fine on white can fail on a dark card, and a yellow that works as an accent can be unreadable as text. The matrix catches the failing combinations before they ship."}},
+    {"@type": "Question", "name": "What do AAA, AA, and AA large mean?",
+     "acceptedAnswer": {"@type": "Answer", "text": "AAA means a contrast ratio of at least 7:1 (normal text), AA means at least 4.5:1 (normal text), and AA large means at least 3:1, which only passes for large text (18pt+ or 14pt bold). Anything below 3:1 fails for all text."}},
+    {"@type": "Question", "name": "Why are the diagonal cells empty?",
+     "acceptedAnswer": {"@type": "Answer", "text": "A color on itself always has a contrast ratio of 1:1 — invisible text. The diagonal is not a usable pair, so it is shown as a dash instead of a number."}},
+    {"@type": "Question", "name": "How do I fix a failing pair?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Darken the darker color or lighten the lighter one until the pair clears 4.5:1, or reserve that color for large text or non-text use (borders, icons) only. The palette generator can build tints and shades that keep your hue while fixing the ratio."}},
+    {"@type": "Question", "name": "Is my palette uploaded anywhere?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Everything runs locally in your browser; no colors, no analytics, no tracking."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">Free palette contrast matrix checker</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker">Gradient Checker</a>
+      <a href="/palette-contrast-matrix" class="active">Palette Matrix</a>
+      <a href="/text-over-gradient-guide">How-to Guide</a>
+      <a href="/wcag-contrast-ratio-explained">Ratio Guide</a>
+      <a href="/fix-low-contrast">Fix Low Contrast</a>
+      <a href="/dark-mode-contrast-guide">Dark Mode Guide</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Palette contrast matrix">
+    <h1 class="page-title">Palette Contrast Matrix</h1>
+    <p class="page-intro">A palette is not one color on white — it is every color on every other color. Enter up to 6 palette colors and the matrix scores all text-on-background pairs at once, so the combination that quietly fails AA never reaches production.</p>
+
+    <div class="mx-inputs">
+      <div class="color-card">
+        <label for="mxPick0">Color 1</label>
+        <div class="picker-row">
+          <input type="color" id="mxPick0" value="#0f172a" aria-label="Color 1 picker">
+          <input type="text" id="mxText0" value="#0f172a" spellcheck="false" aria-label="Color 1 hex">
+        </div>
+      </div>
+      <div class="color-card">
+        <label for="mxPick1">Color 2</label>
+        <div class="picker-row">
+          <input type="color" id="mxPick1" value="#ffffff" aria-label="Color 2 picker">
+          <input type="text" id="mxText1" value="#ffffff" spellcheck="false" aria-label="Color 2 hex">
+        </div>
+      </div>
+      <div class="color-card">
+        <label for="mxPick2">Color 3</label>
+        <div class="picker-row">
+          <input type="color" id="mxPick2" value="#3b82f6" aria-label="Color 3 picker">
+          <input type="text" id="mxText2" value="#3b82f6" spellcheck="false" aria-label="Color 3 hex">
+        </div>
+      </div>
+      <div class="color-card">
+        <label for="mxPick3">Color 4</label>
+        <div class="picker-row">
+          <input type="color" id="mxPick3" value="#f59e0b" aria-label="Color 4 picker">
+          <input type="text" id="mxText3" value="#f59e0b" spellcheck="false" aria-label="Color 4 hex">
+        </div>
+      </div>
+      <div class="color-card">
+        <label for="mxPick4">Color 5</label>
+        <div class="picker-row">
+          <input type="color" id="mxPick4" value="#10b981" aria-label="Color 5 picker">
+          <input type="text" id="mxText4" value="#10b981" spellcheck="false" aria-label="Color 5 hex">
+        </div>
+      </div>
+      <div class="color-card">
+        <label for="mxPick5">Color 6</label>
+        <div class="picker-row">
+          <input type="color" id="mxPick5" value="#ef4444" aria-label="Color 6 picker">
+          <input type="text" id="mxText5" value="#ef4444" spellcheck="false" aria-label="Color 6 hex">
+        </div>
+      </div>
+    </div>
+    <p><button id="mxPreset" class="mx-preset" type="button">Reset to example palette</button></p>
+    <p class="hint" id="mxNote"></p>
+
+    <h2 class="sub-h">Matrix: rows are text, columns are background</h2>
+    <div class="mx-table-wrap" id="mxTableWrap"></div>
+
+    <h2 class="sub-h">Summary</h2>
+    <div class="mx-summary">
+      <div class="mx-stat"><div class="v" id="mxTotal">–</div><div class="k">Pairs checked (excluding same-color)</div></div>
+      <div class="mx-stat"><div class="v" id="mxAAA">–</div><div class="k">AAA pairs (≥ 7:1)</div></div>
+      <div class="mx-stat"><div class="v" id="mxAA">–</div><div class="k">AA pairs (4.5–7:1)</div></div>
+      <div class="mx-stat"><div class="v" id="mxLarge">–</div><div class="k">AA large only (3–4.5:1)</div></div>
+      <div class="mx-stat"><div class="v" id="mxFail">–</div><div class="k">Failing pairs (&lt; 3:1)</div></div>
+    </div>
+    <p class="hint">Best pair: <span id="mxBest">–</span><br>Worst pair: <span id="mxWorst">–</span></p>
+  </section>
+
+  <section class="guide" aria-label="Guide">
+    <h2>How to read the matrix</h2>
+    <p>Find your text color in the left column, then read across to the background it will sit on. Green cells pass AAA (7:1 or better), yellow cells pass AA for normal text (4.5:1) or large text only (3:1) — the label in each cell says which — and red cells fail for all text. Note the matrix is symmetric: white text on dark slate scores the same as dark slate text on white, because contrast ratio depends only on the two luminances.</p>
+    <h2>What the example palette shows</h2>
+    <p>The default palette is deliberately honest, not cherry-picked: white on slate passes AAA, but amber (#F59E0B) on white only reaches about 2.15:1 — it fails even for large text, so amber works as an accent or icon color, not as body text on light backgrounds. Red (#EF4444) on white lands near 4:1: large text only. That is exactly the kind of surprise the matrix exists to surface.</p>
+    <h2>Fixing a failing pair</h2>
+    <ol>
+      <li><strong>Shift lightness, keep hue:</strong> darken the darker color or lighten the lighter one until the pair clears 4.5:1. The <a href="/palette-generator">palette generator</a> builds tints and shades that preserve your hue.</li>
+      <li><strong>Restrict the role:</strong> if a color cannot reach 4.5:1 on a background, use it only for large text (needs 3:1), or for non-text elements such as borders and decorative shapes.</li>
+      <li><strong>Check the whole system:</strong> a pair that passes on white may fail on a card, a dark section, or a gradient — cross-check with the <a href="/gradient-checker">gradient checker</a> and the <a href="/dark-mode-contrast-guide">dark mode guide</a>.</li>
+    </ol>
+    <h2>How the math works</h2>
+    <p>Each pair uses the WCAG 2.1 relative luminance formula and the (L1 + 0.05) / (L2 + 0.05) ratio. No uploads, no tracking: it all runs in your browser.</p>
+  </section>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>Why check every pair, not just text on white?</summary>
+      <p>Design systems reuse the same colors as text, backgrounds, buttons, and badges. A blue that is fine on white can fail on a dark card, and a yellow that works as an accent can be unreadable as text. The matrix catches the failing combinations before they ship.</p></details>
+    <details><summary>What do AAA, AA, and AA large mean?</summary>
+      <p>AAA means a contrast ratio of at least 7:1 (normal text), AA means at least 4.5:1 (normal text), and AA large means at least 3:1, which only passes for large text (18pt+ or 14pt bold). Anything below 3:1 fails for all text.</p></details>
+    <details><summary>Why are the diagonal cells empty?</summary>
+      <p>A color on itself always has a contrast ratio of 1:1 — invisible text. The diagonal is not a usable pair, so it is shown as a dash instead of a number.</p></details>
+    <details><summary>How do I fix a failing pair?</summary>
+      <p>Darken the darker color or lighten the lighter one until the pair clears 4.5:1, or reserve that color for large text or non-text use (borders, icons) only. The palette generator can build tints and shades that keep your hue while fixing the ratio.</p></details>
+    <details><summary>Is my palette uploaded anywhere?</summary>
+      <p>No. Everything runs locally in your browser; no colors, no analytics, no tracking.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Matrix math: WCAG 2.1 contrast for every ordered pair.</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a> &middot; <a href="/wcag-contrast-ratio-explained">Ratio Guide</a>
+      <a href="/fix-low-contrast">Fix Low Contrast</a> &middot; <a href="/dark-mode-contrast-guide">Dark Mode Guide</a></p>
+  </div>
+</footer>
+
+<script src="matrix.js"></script>
+</body>
+</html>
