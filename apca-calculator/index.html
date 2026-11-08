@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APCA Contrast Calculator — Check Contrast the WCAG 3 Way | ContrastLab</title>
+<meta name="description" content="Free APCA contrast calculator. Check any text/background pair with the Accessible Perceptual Contrast Algorithm (APCA 0.98G, the WCAG 3 draft method) and see the WCAG 2.1 ratio side by side, with font-size verdicts.">
+<meta name="keywords" content="apca contrast calculator, apca checker, wcag 3 contrast, accessible perceptual contrast algorithm, Lc contrast, apca vs wcag">
+<meta property="og:title" content="APCA Contrast Calculator | ContrastLab">
+<meta property="og:description" content="Check a color pair with APCA (the WCAG 3 draft method) and the WCAG 2.1 ratio side by side — with font-size verdicts for body, large, and bold text.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/apca-calculator">
+<link rel="canonical" href="https://contrast.mimito6.uk/apca-calculator">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.ap-inputs { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; margin: 16px 0; }
+.ap-inputs .color-card { flex: 1 1 220px; }
+.ap-swap { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 10px 14px; font-size: 14px; font-weight: 700; cursor: pointer; margin-bottom: 4px; }
+.ap-swap:hover { border-color: var(--accent); }
+.ap-presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
+.ap-preset { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.ap-preset:hover { border-color: var(--accent); }
+.ap-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 16px 0; }
+.ap-stat { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #fff; }
+.ap-stat .v { font-size: 24px; font-weight: 800; letter-spacing: -.5px; }
+.ap-stat .k { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.ap-table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; }
+.ap-table th, .ap-table td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; background: #fff; }
+.ap-table th { font-size: 12px; color: var(--muted); }
+.ap-pass { color: #15803d; font-weight: 700; }
+.ap-fail { color: #b91c1c; font-weight: 700; }
+.ap-preview { border: 1px solid var(--line); border-radius: 10px; padding: 28px 22px; margin: 16px 0; }
+.ap-preview .big { font-size: 26px; font-weight: 700; line-height: 1.3; }
+.ap-preview .small { font-size: 15px; line-height: 1.6; margin-top: 10px; }
+.ap-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--line); vertical-align: -2px; margin-right: 6px; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ContrastLab APCA Contrast Calculator",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free APCA contrast calculator: check any text/background pair with the Accessible Perceptual Contrast Algorithm (APCA 0.98G, the WCAG 3 draft method) and the WCAG 2.1 ratio side by side."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Is APCA the new WCAG standard?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Not yet. APCA is the contrast method proposed for WCAG 3 and is still a draft. WCAG 2.1 contrast ratios (4.5:1 for normal text) are the rules that govern compliance today. Use APCA as a second opinion that is closer to how human vision actually perceives contrast, not as a replacement for the WCAG 2 check."}},
+    {"@type": "Question", "name": "Why is the APCA number sometimes negative?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The sign shows polarity, not quality: a positive Lc means dark text on a light background, a negative Lc means light text on a dark background. Only the absolute value matters for readability — Lc -84 and Lc +84 are equally readable."}},
+    {"@type": "Question", "name": "Why does APCA disagree with the WCAG 2 ratio on my pair?",
+     "acceptedAnswer": {"@type": "Answer", "text": "APCA models human perception: it weighs lightness the way eyes do, treats dark-on-light and light-on-dark differently, and ties the required score to font size. WCAG 2 uses one fixed ratio for all text. The two methods usually agree on black and white, but they can disagree sharply on mid-grays — for example light gray #9CA3AF on near-black #121212 scores 7.38:1 (AAA) under WCAG 2 but only Lc -52.9 under APCA, below even the large-text line."}},
+    {"@type": "Question", "name": "What Lc value do I need?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Under the APCA 0.98G draft guidance: Lc 75 is the minimum for body text (90 is preferred), Lc 60 for large text (24px and up), Lc 45 for large bold text, and Lc 30 for non-text elements such as icons, borders, and focus rings. Anything below Lc 15 is effectively unreadable."}},
+    {"@type": "Question", "name": "Is my color data uploaded anywhere?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Everything runs locally in your browser; no colors, no analytics, no tracking."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">Free APCA contrast calculator</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker">Gradient Checker</a>
+      <a href="/palette-contrast-matrix">Palette Matrix</a>
+      <a href="/apca-calculator" class="active">APCA Calculator</a>
+      <a href="/text-over-gradient-guide">How-to Guide</a>
+      <a href="/wcag-contrast-ratio-explained">Ratio Guide</a>
+      <a href="/fix-low-contrast">Fix Low Contrast</a>
+      <a href="/dark-mode-contrast-guide">Dark Mode Guide</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="APCA contrast calculator">
+    <h1 class="page-title">APCA Contrast Calculator</h1>
+    <p class="page-intro">WCAG 2 contrast ratios are a single number for all text. APCA — the Accessible Perceptual Contrast Algorithm proposed for WCAG 3 — scores contrast the way human vision actually works, and ties the passing score to font size. Enter a pair and see both methods side by side.</p>
+
+    <div class="ap-inputs">
+      <div class="color-card">
+        <label for="apText">Text color</label>
+        <div class="picker-row">
+          <input type="color" id="apText" value="#000000" aria-label="Text color picker">
+          <input type="text" id="apTextHex" value="#000000" spellcheck="false" aria-label="Text color hex">
+        </div>
+      </div>
+      <button id="apSwap" class="ap-swap" type="button" title="Swap text and background colors">&#8646; Swap</button>
+      <div class="color-card">
+        <label for="apBg">Background color</label>
+        <div class="picker-row">
+          <input type="color" id="apBg" value="#ffffff" aria-label="Background color picker">
+          <input type="text" id="apBgHex" value="#ffffff" spellcheck="false" aria-label="Background color hex">
+        </div>
+      </div>
+    </div>
+    <div class="ap-presets">
+      <button class="ap-preset" type="button" data-t="#000000" data-b="#ffffff">Black on white</button>
+      <button class="ap-preset" type="button" data-t="#595959" data-b="#ffffff">Body gray #595959</button>
+      <button class="ap-preset" type="button" data-t="#767676" data-b="#ffffff">Borderline gray #767676</button>
+      <button class="ap-preset" type="button" data-t="#9CA3AF" data-b="#121212">Dark-mode gray</button>
+      <button class="ap-preset" type="button" data-t="#F59E0B" data-b="#ffffff">Amber on white</button>
+    </div>
+    <p class="hint" id="apNote"></p>
+
+    <h2 class="sub-h">APCA result</h2>
+    <div class="ap-results">
+      <div class="ap-stat"><div class="v" id="apLc">–</div><div class="k">APCA lightness contrast (Lc)</div></div>
+      <div class="ap-stat"><div class="v" id="apMag">–</div><div class="k">Absolute Lc (readability)</div></div>
+      <div class="ap-stat"><div class="v" id="apPolarity" style="font-size:16px;line-height:1.4">–</div><div class="k">Polarity (sign of Lc)</div></div>
+      <div class="ap-stat"><div class="v" id="apWcag">–</div><div class="k">WCAG 2.1 ratio, same pair</div></div>
+    </div>
+
+    <h2 class="sub-h">Does it pass? (APCA 0.98G draft guidance)</h2>
+    <table class="ap-table">
+      <thead><tr><th>Use</th><th>Needs Lc</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Body text <span style="color:var(--muted)">(90 preferred)</span></td><td>&ge; 75</td><td id="apBody">–</td></tr>
+        <tr><td>Large text (24px+)</td><td>&ge; 60</td><td id="apLarge">–</td></tr>
+        <tr><td>Large bold text</td><td>&ge; 45</td><td id="apBold">–</td></tr>
+        <tr><td>Non-text UI (icons, borders)</td><td>&ge; 30</td><td id="apNontext">–</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="sub-h">Live preview</h2>
+    <div class="ap-preview" id="apPreview">
+      <div class="big">Large heading in your colors</div>
+      <div class="small">Body text in your colors — if this paragraph strains your eyes, the numbers above will tell you why. APCA cares about how this actually looks, not just the ratio on paper.</div>
+    </div>
+    <p class="hint" id="apPreviewWcag"></p>
+  </section>
+
+  <section class="guide" aria-label="Guide">
+    <h2>APCA vs WCAG 2: same pairs, different answers</h2>
+    <p>Both columns below were computed from the same two colors. The methods agree on black and white — and disagree exactly where it matters, on the mid-grays designers actually ship.</p>
+    <table class="ap-table">
+      <thead><tr><th>Pair</th><th>APCA Lc</th><th>WCAG 2.1 ratio</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ap-swatch" style="background:#000"></span>#000000 on #FFFFFF</td><td>+106.0</td><td>21.00:1</td><td>Both maxed out. The reference pair.</td></tr>
+        <tr><td><span class="ap-swatch" style="background:#595959"></span>#595959 on #FFFFFF</td><td>+80.6</td><td>7.00:1 (AAA)</td><td>Both agree: fine for body text.</td></tr>
+        <tr><td><span class="ap-swatch" style="background:#767676"></span>#767676 on #FFFFFF</td><td>+68.3</td><td>4.54:1 (AA)</td><td>WCAG 2 passes AA by 0.04 — APCA says it is below the Lc 75 body minimum. APCA is stricter here.</td></tr>
+        <tr><td><span class="ap-swatch" style="background:#E53935"></span>#E53935 on #FFFFFF</td><td>+66.0</td><td>4.23:1 (large only)</td><td>Both agree: large text only.</td></tr>
+        <tr><td><span class="ap-swatch" style="background:#F59E0B"></span>#F59E0B on #FFFFFF</td><td>+40.0</td><td>2.15:1 (fail)</td><td>APCA lets it through only as non-text (Lc &ge; 30). Not body text either way.</td></tr>
+        <tr><td><span class="ap-swatch" style="background:#0055CC"></span>#FFFFFF on #0055CC</td><td>&minus;84.4</td><td>6.62:1 (AA)</td><td>Both agree: fine for body text. The minus sign only means light-on-dark.</td></tr>
+        <tr><td><span class="ap-swatch" style="background:#9CA3AF"></span>#9CA3AF on #121212</td><td>&minus;52.9</td><td>7.38:1 (AAA)</td><td>The big disagreement: WCAG 2 calls this AAA, APCA says it fails even the Lc 60 large-text line. Light gray on near-black is where APCA earns its keep.</td></tr>
+        <tr><td><span class="ap-swatch" style="background:#6B7280"></span>#6B7280 on #121212</td><td>&minus;29.6</td><td>3.88:1 (large only)</td><td>Both fail body text; APCA also fails it for non-text (below Lc 30).</td></tr>
+      </tbody>
+    </table>
+    <h2>Why APCA scores differently</h2>
+    <p>Three things make APCA perceptual where WCAG 2 is mechanical. First, it models how eyes respond to lightness — mid-grays lose more than the ratio suggests. Second, it treats polarity asymmetrically: light text on a dark background is judged by a different curve than dark text on light, which is why the same pair can score +106 one way and &minus;108 the other. Third, the passing bar moves with font size: small body text needs Lc 75, a 24px heading only needs Lc 60. WCAG 2 has one bar for all text; APCA has a bar per use.</p>
+    <h2>How to use this honestly</h2>
+    <ol>
+      <li><strong>Ship to WCAG 2 today.</strong> APCA is a draft for WCAG 3. The 4.5:1 rule is still what auditors and the law check — use the <a href="/">contrast checker</a> for that.</li>
+      <li><strong>Use APCA as a second opinion.</strong> When WCAG 2 barely passes (4.5–5:1) or when the pair is light-on-dark, check the Lc. If APCA is under 75 for body text, darken the text or lighten the background even though WCAG 2 says it passes.</li>
+      <li><strong>Trust the disagreement on dark mode.</strong> Light grays on near-black are the classic case where WCAG 2 over-promises. If your dark theme text sits at #9CA3AF or lighter on #121212, APCA is telling you it reads worse than the AAA label suggests.</li>
+    </ol>
+    <h2>How the math works</h2>
+    <p>APCA 0.98G: sRGB channels are linearized, combined into relative luminance Y (0.2126729 R + 0.7151522 G + 0.0721750 B), soft-clamped near black (threshold 0.022), then raised to polarity-dependent powers (0.56/0.57 for dark-on-light, 0.65/0.62 for light-on-dark), scaled by 1.14 and reported as Lc &times; 100. No uploads, no tracking: it all runs in your browser.</p>
+  </section>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>Is APCA the new WCAG standard?</summary>
+      <p>Not yet. APCA is the contrast method proposed for WCAG 3 and is still a draft. WCAG 2.1 contrast ratios (4.5:1 for normal text) are the rules that govern compliance today. Use APCA as a second opinion that is closer to how human vision actually perceives contrast, not as a replacement for the WCAG 2 check.</p></details>
+    <details><summary>Why is the APCA number sometimes negative?</summary>
+      <p>The sign shows polarity, not quality: a positive Lc means dark text on a light background, a negative Lc means light text on a dark background. Only the absolute value matters for readability — Lc &minus;84 and Lc +84 are equally readable.</p></details>
+    <details><summary>Why does APCA disagree with the WCAG 2 ratio on my pair?</summary>
+      <p>APCA models human perception: it weighs lightness the way eyes do, treats dark-on-light and light-on-dark differently, and ties the required score to font size. WCAG 2 uses one fixed ratio for all text. The two methods usually agree on black and white, but they can disagree sharply on mid-grays — for example light gray #9CA3AF on near-black #121212 scores 7.38:1 (AAA) under WCAG 2 but only Lc &minus;52.9 under APCA, below even the large-text line.</p></details>
+    <details><summary>What Lc value do I need?</summary>
+      <p>Under the APCA 0.98G draft guidance: Lc 75 is the minimum for body text (90 is preferred), Lc 60 for large text (24px and up), Lc 45 for large bold text, and Lc 30 for non-text elements such as icons, borders, and focus rings. Anything below Lc 15 is effectively unreadable.</p></details>
+    <details><summary>Is my color data uploaded anywhere?</summary>
+      <p>No. Everything runs locally in your browser; no colors, no analytics, no tracking.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. APCA math: Accessible Perceptual Contrast Algorithm 0.98G (WCAG 3 draft); WCAG 2.1 ratio shown for comparison.</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/palette-contrast-matrix">Palette Matrix</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a> &middot; <a href="/wcag-contrast-ratio-explained">Ratio Guide</a>
+      <a href="/fix-low-contrast">Fix Low Contrast</a> &middot; <a href="/dark-mode-contrast-guide">Dark Mode Guide</a></p>
+  </div>
+</footer>
+
+<script src="apca.js"></script>
+</body>
+</html>
