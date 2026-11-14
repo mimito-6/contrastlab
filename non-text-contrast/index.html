@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Non-Text Contrast Checker — WCAG 1.4.11 (3:1) for Icons, Borders &amp; Focus Rings | ContrastLab</title>
+<meta name="description" content="Free non-text contrast checker. Check icons, button and input borders, focus indicators, and chart lines against WCAG 2.1 Success Criterion 1.4.11 — 3:1 against adjacent colors — with a live component preview.">
+<meta name="keywords" content="non-text contrast checker, wcag 1.4.11, non-text contrast, 3:1 contrast, icon contrast checker, focus indicator contrast, ui component contrast">
+<meta property="og:title" content="Non-Text Contrast Checker | ContrastLab">
+<meta property="og:description" content="Check icons, borders, focus rings, and chart lines against WCAG 1.4.11 — 3:1 against adjacent colors — with a live preview of your components.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/non-text-contrast">
+<link rel="canonical" href="https://contrast.mimito6.uk/non-text-contrast">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.nt-inputs { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; margin: 16px 0; }
+.nt-inputs .color-card { flex: 1 1 220px; }
+.nt-swap { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 10px 14px; font-size: 14px; font-weight: 700; cursor: pointer; margin-bottom: 4px; }
+.nt-swap:hover { border-color: var(--accent); }
+.nt-presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
+.nt-preset { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.nt-preset:hover { border-color: var(--accent); }
+.nt-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 16px 0; }
+.nt-stat { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #fff; }
+.nt-stat .v { font-size: 24px; font-weight: 800; letter-spacing: -.5px; }
+.nt-stat .k { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.nt-table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; }
+.nt-table th, .nt-table td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; background: #fff; }
+.nt-table th { font-size: 12px; color: var(--muted); }
+.nt-pass { color: #15803d; font-weight: 700; }
+.nt-fail { color: #b91c1c; font-weight: 700; }
+.nt-preview { border: 1px solid var(--line); border-radius: 10px; padding: 28px 22px; margin: 16px 0; display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
+.nt-preview .pv-item { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.nt-preview .pv-label { font-size: 12px; color: var(--muted); }
+.nt-preview input[type="text"] { padding: 10px 12px; border: 2px solid; border-radius: 8px; font-size: 14px; width: 180px; }
+.nt-preview .pv-btn { padding: 10px 18px; border: 2px solid; border-radius: 8px; font-size: 14px; font-weight: 700; background: transparent; cursor: pointer; }
+.nt-preview .pv-focus { padding: 10px 18px; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; outline: 3px solid; outline-offset: 2px; }
+.nt-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--line); vertical-align: -2px; margin-right: 6px; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ContrastLab Non-Text Contrast Checker",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free non-text contrast checker: check icons, borders, focus indicators, and chart lines against WCAG 2.1 Success Criterion 1.4.11 (3:1 against adjacent colors), with a live component preview."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Is 3:1 the rule for text too?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Text needs 4.5:1 for normal text and 3:1 for large text (WCAG 1.4.3). The 3:1 rule on this page is WCAG 1.4.11, which covers non-text elements only: icons, UI component borders, focus indicators, and meaningful graphics. A gray that passes here (for example #767676 at 4.54:1) still barely passes for text — check text with the main contrast checker."}},
+    {"@type": "Question", "name": "Do disabled controls need 3:1 contrast?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. WCAG 1.4.11 explicitly exempts inactive user interface components — a disabled button or a grayed-out control does not need to meet 3:1. The exemption only applies while the control is genuinely disabled, not to controls that merely look subdued."}},
+    {"@type": "Question", "name": "Does my logo need 3:1 contrast?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Logos and purely decorative graphics are exempt from 1.4.11. The rule applies to graphics that carry meaning — a chart line, a status icon, a diagram part — and to the visible boundaries of controls that users must find and operate."}},
+    {"@type": "Question", "name": "What counts as the adjacent color for a border or icon?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The color directly next to the element: for an input border it is usually the page or card background behind the field; for an icon it is the fill of the button or surface it sits on. A focus indicator is special — it has two neighbors, the control and the page — and it must reach 3:1 against both."}},
+    {"@type": "Question", "name": "My icon passes 3:1 but it sits inside a button — what do I check?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Both layers. Check the icon against the button's fill, and check the button's border (or the button's fill, if the button has no border) against the page background. Each boundary needs its own 3:1 — a passing icon on a button that melts into the page still fails."}},
+    {"@type": "Question", "name": "Is my color data uploaded anywhere?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Everything runs locally in your browser; no colors, no analytics, no tracking."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">Free non-text contrast checker</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker">Gradient Checker</a>
+      <a href="/palette-contrast-matrix">Palette Matrix</a>
+      <a href="/apca-calculator">APCA Calculator</a>
+      <a href="/non-text-contrast" class="active">Non-Text Checker</a>
+      <a href="/text-over-gradient-guide">How-to Guide</a>
+      <a href="/wcag-contrast-ratio-explained">Ratio Guide</a>
+      <a href="/fix-low-contrast">Fix Low Contrast</a>
+      <a href="/dark-mode-contrast-guide">Dark Mode Guide</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Non-text contrast checker">
+    <h1 class="page-title">Non-Text Contrast Checker</h1>
+    <p class="page-intro">Text needs 4.5:1 — but icons, input borders, focus rings, and chart lines only need <strong>3:1</strong> (WCAG 2.1 Success Criterion 1.4.11, against adjacent colors). Enter your component color and the color right next to it, and see whether the boundary is actually visible.</p>
+
+    <div class="nt-inputs">
+      <div class="color-card">
+        <label for="ntFg">Component color (icon / border / focus ring)</label>
+        <div class="picker-row">
+          <input type="color" id="ntFg" value="#6B7280" aria-label="Component color picker">
+          <input type="text" id="ntFgHex" value="#6B7280" spellcheck="false" aria-label="Component color hex">
+        </div>
+      </div>
+      <button id="ntSwap" class="nt-swap" type="button" title="Swap component and adjacent colors">&#8646; Swap</button>
+      <div class="color-card">
+        <label for="ntBg">Adjacent color (background it sits on)</label>
+        <div class="picker-row">
+          <input type="color" id="ntBg" value="#ffffff" aria-label="Adjacent color picker">
+          <input type="text" id="ntBgHex" value="#ffffff" spellcheck="false" aria-label="Adjacent color hex">
+        </div>
+      </div>
+    </div>
+    <div class="nt-presets">
+      <button class="nt-preset" type="button" data-f="#6B7280" data-b="#ffffff">Gray icon #6B7280 on white</button>
+      <button class="nt-preset" type="button" data-f="#D1D5DB" data-b="#ffffff">Light border #D1D5DB on white</button>
+      <button class="nt-preset" type="button" data-f="#2563EB" data-b="#ffffff">Blue focus ring on white</button>
+      <button class="nt-preset" type="button" data-f="#93C5FD" data-b="#2563EB">Light ring on blue button</button>
+      <button class="nt-preset" type="button" data-f="#94A3B8" data-b="#0F172A">Slate icon on dark</button>
+    </div>
+    <p class="hint" id="ntNote"></p>
+
+    <h2 class="sub-h">Result — WCAG 1.4.11 (3:1)</h2>
+    <div class="nt-results">
+      <div class="nt-stat"><div class="v" id="ntRatio">–</div><div class="k">Contrast ratio</div></div>
+      <div class="nt-stat"><div class="v" id="ntVerdict">–</div><div class="k">Verdict at 3:1</div></div>
+      <div class="nt-stat"><div class="v" id="ntMargin" style="font-size:16px;line-height:1.4">–</div><div class="k">Distance from the 3:1 line</div></div>
+    </div>
+
+    <h2 class="sub-h">What this pair passes (or fails) at 3:1</h2>
+    <table class="nt-table">
+      <thead><tr><th>Use</th><th>Needs</th><th>Adjacent color to measure</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Meaningful icon / graphic</td><td>3:1</td><td>The surface behind the icon</td><td id="ntIcon">–</td></tr>
+        <tr><td>Input &amp; button borders</td><td>3:1</td><td>The page / card behind the control</td><td id="ntBorder">–</td></tr>
+        <tr><td>Focus indicator</td><td>3:1</td><td>Both the control <em>and</em> the page — check twice</td><td id="ntFocus">–</td></tr>
+        <tr><td>Chart lines &amp; diagram parts</td><td>3:1</td><td>The chart background</td><td id="ntChart">–</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="sub-h">Live preview</h2>
+    <div class="nt-preview" id="ntPreview">
+      <div class="pv-item">
+        <span class="pv-label">Icon</span>
+        <span id="ntPreviewIcon" style="font-size:32px;line-height:1">&#10003;</span>
+      </div>
+      <div class="pv-item">
+        <span class="pv-label">Input border</span>
+        <input type="text" id="ntPreviewInput" value="Your name" aria-label="Preview input">
+      </div>
+      <div class="pv-item">
+        <span class="pv-label">Button border</span>
+        <button class="pv-btn" id="ntPreviewBtn" type="button">Save changes</button>
+      </div>
+      <div class="pv-item">
+        <span class="pv-label">Focus ring (vs this background)</span>
+        <button class="pv-focus" id="ntPreviewFocus" type="button">Focused button</button>
+      </div>
+    </div>
+    <p class="hint">The focus ring above is checked against the background shown here. A real focus ring has a second neighbor — the control itself — so run the check again with the control's fill as the adjacent color.</p>
+  </section>
+
+  <section class="guide" aria-label="Guide">
+    <h2>What 3:1 actually covers</h2>
+    <p>WCAG 2.1 Success Criterion 1.4.11 (Non-text Contrast) requires a <strong>3:1</strong> ratio between a UI component or meaningful graphic and its adjacent colors. That covers four things: the visible boundary of controls (input borders, button outlines), meaningful icons and graphics (a chart line, a status icon, a diagram part), the state of a control (a checked checkbox, a selected tab), and the focus indicator. What it does <em>not</em> cover: text (that is 1.4.3, 4.5:1), purely decorative graphics, logos, and inactive or disabled components — those are explicitly exempt.</p>
+    <h2>Real component colors, real verdicts — on white</h2>
+    <p>The 3:1 line is more forgiving than the 4.5:1 text line, and the grays that barely pass as text sail through here. But the light grays designers reach for by default fail even at 3:1 — the classic Tailwind gray-300 border is 1.47:1, effectively invisible.</p>
+    <table class="nt-table">
+      <thead><tr><th>Component color</th><th>Ratio on #FFFFFF</th><th>Verdict</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><span class="nt-swatch" style="background:#6B7280"></span>#6B7280 (gray-500)</td><td>4.83:1</td><td class="nt-pass">Pass</td><td>A safe default icon / border gray.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#767676"></span>#767676</td><td>4.54:1</td><td class="nt-pass">Pass</td><td>Barely passes as text (4.5:1) — comfortably passes here.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#64748B"></span>#64748B (slate-500)</td><td>4.76:1</td><td class="nt-pass">Pass</td><td>Another safe mid-gray.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#78716C"></span>#78716C (stone-500)</td><td>4.80:1</td><td class="nt-pass">Pass</td><td>Warm gray, same story.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB (blue-600)</td><td>5.17:1</td><td class="nt-pass">Pass</td><td>Good focus-ring blue on white.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#1D4ED8"></span>#1D4ED8 (blue-700)</td><td>6.70:1</td><td class="nt-pass">Pass</td><td>Darker blue, even safer.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#9CA3AF"></span>#9CA3AF (gray-400)</td><td>2.54:1</td><td class="nt-fail">Fail</td><td>The most common failing gray — looks fine, measures short.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#94A3B8"></span>#94A3B8 (slate-400)</td><td>2.56:1</td><td class="nt-fail">Fail</td><td>Same trap in the slate family.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#A8A29E"></span>#A8A29E (stone-400)</td><td>2.52:1</td><td class="nt-fail">Fail</td><td>Same trap in the stone family.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#60A5FA"></span>#60A5FA (blue-400)</td><td>2.54:1</td><td class="nt-fail">Fail</td><td>Bright blue is not automatically visible on white.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#F59E0B"></span>#F59E0B (amber-500)</td><td>2.15:1</td><td class="nt-fail">Fail</td><td>Warning amber needs a darker shade on white.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#D1D5DB"></span>#D1D5DB (gray-300)</td><td>1.47:1</td><td class="nt-fail">Fail</td><td>The default light border — nearly invisible.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#CBD5E1"></span>#CBD5E1 (slate-300)</td><td>1.48:1</td><td class="nt-fail">Fail</td><td>Same for slate-300.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#E5E7EB"></span>#E5E7EB (gray-200)</td><td>1.24:1</td><td class="nt-fail">Fail</td><td>Only usable as a divider on a darker card, never on white.</td></tr>
+      </tbody>
+    </table>
+    <h2>Same colors, dark backgrounds</h2>
+    <p>Contrast is always relative. The grays that fail on white can pass on dark — and the ones that pass on white can fail there.</p>
+    <table class="nt-table">
+      <thead><tr><th>Pair</th><th>Ratio</th><th>Verdict</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><span class="nt-swatch" style="background:#9CA3AF"></span>#9CA3AF on #121212</td><td>7.38:1</td><td class="nt-pass">Pass</td><td>The failing gray-400 becomes a passing dark-mode icon.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#6B7280"></span>#6B7280 on #121212</td><td>3.88:1</td><td class="nt-pass">Pass</td><td>Passes — but only just. One shade darker would fail.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#52525B"></span>#52525B on #121212</td><td>2.42:1</td><td class="nt-fail">Fail</td><td>Zinc-600 on near-black: the dark-mode version of the same trap.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#60A5FA"></span>#60A5FA on #121212</td><td>7.37:1</td><td class="nt-pass">Pass</td><td>Blue-400 fails on white (2.54) and passes on dark (7.37).</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#38BDF8"></span>#38BDF8 on #121212</td><td>8.74:1</td><td class="nt-pass">Pass</td><td>Sky-400 is a strong dark-mode accent.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#94A3B8"></span>#94A3B8 on #0F172A</td><td>6.96:1</td><td class="nt-pass">Pass</td><td>Slate-400 icon on a slate-900 surface: fine.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#CBD5E1"></span>#CBD5E1 on #0F172A</td><td>12.02:1</td><td class="nt-pass">Pass</td><td>Slate-300 on slate-900: very strong.</td></tr>
+      </tbody>
+    </table>
+    <h2>The focus-indicator trap: a ring has two neighbors</h2>
+    <p>A focus ring must reach 3:1 against <strong>both</strong> adjacent colors — the control it surrounds and the page behind it. Checking only one side is the most common way a "passing" focus indicator ships broken. The classic failure is a blue ring on a blue button:</p>
+    <table class="nt-table">
+      <thead><tr><th>Focus ring vs…</th><th>Ratio</th><th>Verdict</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB ring vs white page</td><td>5.17:1</td><td class="nt-pass">Pass</td><td>Against the page, the ring is clearly visible.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB ring vs #1D4ED8 button</td><td>1.30:1</td><td class="nt-fail">Fail</td><td>Same ring, same button family — invisible where it meets the control.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#93C5FD"></span>#93C5FD ring vs #2563EB button</td><td>2.87:1</td><td class="nt-fail">Fail</td><td>A light ring on a blue button still falls short of 3:1.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#FFFFFF"></span>#FFFFFF ring vs #2563EB button</td><td>5.17:1</td><td class="nt-pass">Pass</td><td>A white ring on the blue button passes — pair it with a dark outer ring for the page side.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB ring vs #EFF6FF card</td><td>4.75:1</td><td class="nt-pass">Pass</td><td>Even on a pale blue card the ring holds up.</td></tr>
+      </tbody>
+    </table>
+    <p>The robust fix is a <strong>double ring</strong>: a white inner ring plus a dark outer ring (or the reverse). One of the two always contrasts with whatever sits on either side. WCAG 2.2 additionally asks the indicator to cover an area at least as large as a 2px perimeter of the component — this tool checks color only, so keep the ring thick enough as well as contrasting enough.</p>
+    <h2>How to fix a failing component</h2>
+    <ol>
+      <li><strong>Go one shade darker (or lighter on dark).</strong> The fix is almost always a single step in your scale: gray-400 → gray-500 (2.54 → 4.83), slate-300 → slate-400 still fails (1.48 → 2.56), so for borders go two steps: slate-300 → slate-500 (1.48 → 4.76).</li>
+      <li><strong>Check the real adjacent color.</strong> A border that passes on white can fail on a tinted card — run the check with the card color, not the page color.</li>
+      <li><strong>For focus rings, use a double ring.</strong> White + dark, so the ring passes against both the control and the page no matter their colors.</li>
+      <li><strong>Do not rely on "it looks fine".</strong> #9CA3AF and #94A3B8 both look like perfectly readable grays on white; both measure 2.5:1 and fail. The number is the test.</li>
+    </ol>
+    <h2>How the math works</h2>
+    <p>Same WCAG 2.1 ratio as the text checker: relative luminance from linearized sRGB (weights 0.2126 red, 0.7152 green, 0.0722 blue), then (L1 + 0.05) / (L2 + 0.05). Only the threshold changes — 3:1 instead of 4.5:1 — and the threshold is inclusive: exactly 3.00:1 passes. No uploads, no tracking: it all runs in your browser.</p>
+  </section>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>Is 3:1 the rule for text too?</summary>
+      <p>No. Text needs 4.5:1 for normal text and 3:1 for large text (WCAG 1.4.3). The 3:1 rule on this page is WCAG 1.4.11, which covers non-text elements only: icons, UI component borders, focus indicators, and meaningful graphics. A gray that passes here (for example #767676 at 4.54:1) still barely passes for text — check text with the <a href="/">contrast checker</a>.</p></details>
+    <details><summary>Do disabled controls need 3:1 contrast?</summary>
+      <p>No. WCAG 1.4.11 explicitly exempts inactive user interface components — a disabled button or a grayed-out control does not need to meet 3:1. The exemption only applies while the control is genuinely disabled, not to controls that merely look subdued.</p></details>
+    <details><summary>Does my logo need 3:1 contrast?</summary>
+      <p>No. Logos and purely decorative graphics are exempt from 1.4.11. The rule applies to graphics that carry meaning — a chart line, a status icon, a diagram part — and to the visible boundaries of controls that users must find and operate.</p></details>
+    <details><summary>What counts as the adjacent color for a border or icon?</summary>
+      <p>The color directly next to the element: for an input border it is usually the page or card background behind the field; for an icon it is the fill of the button or surface it sits on. A focus indicator is special — it has two neighbors, the control and the page — and it must reach 3:1 against both.</p></details>
+    <details><summary>My icon passes 3:1 but it sits inside a button — what do I check?</summary>
+      <p>Both layers. Check the icon against the button's fill, and check the button's border (or the button's fill, if the button has no border) against the page background. Each boundary needs its own 3:1 — a passing icon on a button that melts into the page still fails.</p></details>
+    <details><summary>Is my color data uploaded anywhere?</summary>
+      <p>No. Everything runs locally in your browser; no colors, no analytics, no tracking.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Non-text contrast: WCAG 2.1 Success Criterion 1.4.11 (3:1 against adjacent colors).</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/palette-contrast-matrix">Palette Matrix</a> &middot; <a href="/apca-calculator">APCA Calculator</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a> &middot; <a href="/wcag-contrast-ratio-explained">Ratio Guide</a> &middot; <a href="/fix-low-contrast">Fix Low Contrast</a> &middot; <a href="/dark-mode-contrast-guide">Dark Mode Guide</a></p>
+  </div>
+</footer>
+
+<script src="nontext.js"></script>
+</body>
+</html>
