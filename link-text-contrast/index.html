@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Link Text Contrast Checker — WCAG 1.4.1 (3:1 vs Body Text) &amp; 1.4.3 | ContrastLab</title>
+<meta name="description" content="Free link text contrast checker. A link inside a paragraph must pass two tests: 4.5:1 against the background (WCAG 1.4.3) and 3:1 against the surrounding body text — or be underlined (WCAG 1.4.1, technique G183). Check both, with a live preview.">
+<meta name="keywords" content="link text contrast checker, link color contrast, wcag 1.4.1, g183, link vs body text 3:1, underline link accessibility, link distinguishable from text">
+<meta property="og:title" content="Link Text Contrast Checker | ContrastLab">
+<meta property="og:description" content="A link must pass two tests: 4.5:1 against the background and 3:1 against the surrounding body text — or be underlined. Check both with a live preview.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/link-text-contrast">
+<link rel="canonical" href="https://contrast.mimito6.uk/link-text-contrast">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.lt-inputs { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; margin: 16px 0; }
+.lt-inputs .color-card { flex: 1 1 200px; }
+.lt-swap { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 10px 14px; font-size: 14px; font-weight: 700; cursor: pointer; margin-bottom: 4px; }
+.lt-swap:hover { border-color: var(--accent); }
+.lt-presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
+.lt-preset { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.lt-preset:hover { border-color: var(--accent); }
+.lt-underline-row { margin: 4px 0 16px; font-size: 15px; }
+.lt-underline-row input { width: 18px; height: 18px; vertical-align: -3px; margin-right: 8px; }
+.lt-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
+.lt-stat { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #fff; }
+.lt-stat .v { font-size: 24px; font-weight: 800; letter-spacing: -.5px; }
+.lt-stat .k { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.lt-overall { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; background: #fff; font-size: 16px; font-weight: 700; margin: 4px 0 16px; }
+.lt-table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; }
+.lt-table th, .lt-table td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; background: #fff; }
+.lt-table th { font-size: 12px; color: var(--muted); }
+.lt-pass { color: #15803d; font-weight: 700; }
+.lt-fail { color: #b91c1c; font-weight: 700; }
+.lt-preview { border: 1px solid var(--line); border-radius: 10px; padding: 28px 22px; margin: 16px 0; }
+.lt-preview p { font-size: 17px; line-height: 1.7; margin: 0; }
+.lt-preview a { font-weight: 600; }
+.lt-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--line); vertical-align: -2px; margin-right: 6px; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ContrastLab Link Text Contrast Checker",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free link text contrast checker: check a link against its background (WCAG 1.4.3, 4.5:1) and against the surrounding body text (WCAG 1.4.1 / G183, 3:1), or mark it underlined, with a live paragraph preview."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Isn't 4.5:1 enough for a link?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. 4.5:1 is only the link-versus-background test (WCAG 1.4.3). WCAG 1.4.1 separately requires the link to be distinguishable from the surrounding body text — a 3:1 color difference, or a non-color cue such as an underline. A link can pass 4.5:1 and still be invisible as a link to a color-blind reader."}},
+    {"@type": "Question", "name": "Does an underline really fix a failing link?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes. Technique G183 lists underlining (and other non-color cues such as bold, an icon, or a border) as a valid way to distinguish links from surrounding text, with no color-difference requirement at all. That is exactly why browsers underline links by default — and why removing the underline creates a WCAG problem most teams never measure."}},
+    {"@type": "Question", "name": "Why does the classic blue link fail the test?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The web's original link blue, #0000EE, measures 9.40:1 against white — AAA — but only 2.23:1 against black body text, below the 3:1 line. Even against pure black it cannot pass, so a classic blue link with no underline fails WCAG 1.4.1. The visited-link purple #551A8B is worse at 1.91:1 against black. Both need underlines (or a different link color)."}},
+    {"@type": "Question", "name": "Can I pass both rules with color alone?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Sometimes, but the window is narrow. The link's luminance must sit in a band: dark enough for 4.5:1 against the background, light enough for 3:1 against the body text. For example, blue-600 #2563EB passes both when the body text is #111827 or darker (3.43:1), but fails when the body is #1F2937 (2.84:1). Darkening the link helps the background test and hurts the body test; lightening the body text makes the body test worse, not better."}},
+    {"@type": "Question", "name": "Do dark-mode links have the same problem?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes, mirrored. On a #121212 background with #E5E7EB body text, every common light link color fails the 3:1 link-vs-body test — #93C5FD is 1.46:1, #60A5FA 2.05:1, #FBBF24 1.35:1 — even though all of them pass 4.5:1 against the background. Dark-mode links need underlines too, or a much darker body text."}},
+    {"@type": "Question", "name": "Is my color data uploaded anywhere?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Everything runs locally in your browser; no colors, no analytics, no tracking."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">Free link text contrast checker</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker">Gradient Checker</a>
+      <a href="/palette-contrast-matrix">Palette Matrix</a>
+      <a href="/apca-calculator">APCA Calculator</a>
+      <a href="/non-text-contrast">Non-Text Checker</a>
+      <a href="/link-text-contrast" class="active">Link Text Checker</a>
+      <a href="/text-over-gradient-guide">How-to Guide</a>
+      <a href="/wcag-contrast-ratio-explained">Ratio Guide</a>
+      <a href="/fix-low-contrast">Fix Low Contrast</a>
+      <a href="/dark-mode-contrast-guide">Dark Mode Guide</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Link text contrast checker">
+    <h1 class="page-title">Link Text Contrast Checker</h1>
+    <p class="page-intro">A link inside a paragraph must pass <strong>two</strong> tests, not one: <strong>4.5:1</strong> against the background (WCAG 1.4.3, so it is readable) and <strong>3:1</strong> against the surrounding body text — or carry an underline or other non-color cue (WCAG 1.4.1, technique G183, so a color-blind reader can tell it is a link at all). Enter your three colors and see both.</p>
+
+    <div class="lt-inputs">
+      <div class="color-card">
+        <label for="ltLink">Link color</label>
+        <div class="picker-row">
+          <input type="color" id="ltLink" value="#2563EB" aria-label="Link color picker">
+          <input type="text" id="ltLinkHex" value="#2563EB" spellcheck="false" aria-label="Link color hex">
+        </div>
+      </div>
+      <button id="ltSwap" class="lt-swap" type="button" title="Swap link and body colors">&#8646; Swap link / body</button>
+      <div class="color-card">
+        <label for="ltBody">Body text color</label>
+        <div class="picker-row">
+          <input type="color" id="ltBody" value="#1F2937" aria-label="Body text color picker">
+          <input type="text" id="ltBodyHex" value="#1F2937" spellcheck="false" aria-label="Body text color hex">
+        </div>
+      </div>
+      <div class="color-card">
+        <label for="ltBg">Background color</label>
+        <div class="picker-row">
+          <input type="color" id="ltBg" value="#ffffff" aria-label="Background color picker">
+          <input type="text" id="ltBgHex" value="#ffffff" spellcheck="false" aria-label="Background color hex">
+        </div>
+      </div>
+    </div>
+    <div class="lt-underline-row">
+      <label><input type="checkbox" id="ltUnderline"> The link is underlined (or has another non-color cue: bold, icon, border)</label>
+    </div>
+    <div class="lt-presets">
+      <button class="lt-preset" type="button" data-l="#0000EE" data-b="#000000" data-g="#FFFFFF">Classic blue #0000EE on white</button>
+      <button class="lt-preset" type="button" data-l="#2563EB" data-b="#1F2937" data-g="#FFFFFF">Blue-600 + gray-800 body</button>
+      <button class="lt-preset" type="button" data-l="#2563EB" data-b="#111827" data-g="#FFFFFF">Blue-600 + near-black body</button>
+      <button class="lt-preset" type="button" data-l="#60A5FA" data-b="#374151" data-g="#FFFFFF">Light blue #60A5FA on white</button>
+      <button class="lt-preset" type="button" data-l="#93C5FD" data-b="#E5E7EB" data-g="#121212">Dark mode #93C5FD</button>
+      <button class="lt-preset" type="button" data-l="#551A8B" data-b="#000000" data-g="#FFFFFF">Visited purple #551A8B</button>
+    </div>
+    <p class="hint" id="ltNote"></p>
+
+    <h2 class="sub-h">The three ratios</h2>
+    <div class="lt-results">
+      <div class="lt-stat"><div class="v" id="ltRatioLinkBg">–</div><div class="k">Link vs background — needs 4.5:1 (AA)</div></div>
+      <div class="lt-stat"><div class="v" id="ltRatioBodyBg">–</div><div class="k">Body vs background — needs 4.5:1 (AA)</div></div>
+      <div class="lt-stat"><div class="v" id="ltRatioLinkBody">–</div><div class="k">Link vs body text — needs 3:1 (G183)</div></div>
+    </div>
+    <div class="lt-results">
+      <div class="lt-stat"><div class="v" id="ltVerdictLinkBg" style="font-size:18px;line-height:1.4">–</div><div class="k">Link readability (WCAG 1.4.3)</div></div>
+      <div class="lt-stat"><div class="v" id="ltVerdictBodyBg" style="font-size:18px;line-height:1.4">–</div><div class="k">Body readability (WCAG 1.4.3)</div></div>
+      <div class="lt-stat"><div class="v" id="ltVerdictLinkBody" style="font-size:18px;line-height:1.4">–</div><div class="k">Link distinguishable (WCAG 1.4.1)</div></div>
+    </div>
+
+    <h2 class="sub-h">Overall verdict</h2>
+    <div class="lt-overall" id="ltOverall">–</div>
+
+    <h2 class="sub-h">Live preview</h2>
+    <div class="lt-preview" id="ltPreview">
+      <p id="ltPreviewText">This is a paragraph of body text with a <a href="#" id="ltPreviewLink" onclick="return false;">link inside it</a>. Can you tell where the link is without hovering? Toggle the underline checkbox above and watch the difference.</p>
+    </div>
+    <p class="hint">The preview shows the link exactly as your colors render it. If you cannot spot the link at a glance with the underline off, a color-blind reader cannot either — that is what the 3:1 check measures.</p>
+  </section>
+
+  <section class="guide" aria-label="Guide">
+    <h2>The two rules, and why they fight each other</h2>
+    <p>WCAG 1.4.3 (Contrast Minimum) asks the link to be readable: <strong>4.5:1</strong> against its background for normal text. WCAG 1.4.1 (Use of Color) asks the link to be <em>findable</em>: it must not be identified by color alone, so either the link differs from the surrounding body text by <strong>3:1</strong>, or it carries a non-color cue — an underline, bold weight, an icon, a border (technique G183). The two rules pull in opposite directions: a light link stands out from dark body text but fades into a white background; a dark link is readable on white but sits too close to dark body text to be noticed. Most real link colors fail one of the two. That is not a bug in the test — it is why browsers underline links by default, and why removing the underline is a WCAG decision, not a styling one.</p>
+    <h2>Common link colors on white — the second column is the surprise</h2>
+    <p>Every color below passes the familiar 4.5:1 background test except blue-400. But measured against black body text, the web's two most historic link colors fail the 3:1 test outright.</p>
+    <table class="lt-table">
+      <thead><tr><th>Link color</th><th>vs white background</th><th>vs black body text</th><th>Overall (no underline)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="lt-swatch" style="background:#0000EE"></span>#0000EE (classic blue)</td><td>9.40:1 — AAA</td><td>2.23:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#551A8B"></span>#551A8B (visited purple)</td><td>11.01:1 — AAA</td><td>1.91:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#2563EB"></span>#2563EB (blue-600)</td><td>5.17:1 — AA</td><td>4.06:1</td><td class="lt-pass">Pass</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#1D4ED8"></span>#1D4ED8 (blue-700)</td><td>6.70:1 — AA</td><td>3.13:1</td><td class="lt-pass">Pass</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#0066CC"></span>#0066CC</td><td>5.57:1 — AA</td><td>3.77:1</td><td class="lt-pass">Pass</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#60A5FA"></span>#60A5FA (blue-400)</td><td>2.54:1</td><td>8.26:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#1A7F37"></span>#1A7F37 (green)</td><td>5.08:1 — AA</td><td>4.13:1</td><td class="lt-pass">Pass</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#B42318"></span>#B42318 (red)</td><td>6.57:1 — AA</td><td>3.19:1</td><td class="lt-pass">Pass</td></tr>
+      </tbody>
+    </table>
+    <p>Note the pattern: the colors that pass both do so <em>against pure black body text</em>. Real body text is rarely pure black — and that is where the next table bites.</p>
+    <h2>The body-text trap: darkening the body is not the fix you think</h2>
+    <p>Take the same link, blue-600 #2563EB, and vary only the body text. Against near-black body it passes; against the gray-800 body most sites actually use, it fails. And the intuitive fix — lightening the body text so the link "pops" — makes it worse, because the link and the body converge in luminance.</p>
+    <table class="lt-table">
+      <thead><tr><th>Pair</th><th>Link vs body</th><th>Body vs white</th><th>Verdict (no underline)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="lt-swatch" style="background:#2563EB"></span>#2563EB link vs #000000 body</td><td>4.06:1</td><td>21.00:1</td><td class="lt-pass">Pass</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#2563EB"></span>#2563EB link vs #111827 body</td><td>3.43:1</td><td>17.74:1</td><td class="lt-pass">Pass</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#2563EB"></span>#2563EB link vs #1F2937 body</td><td>2.84:1</td><td>14.68:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#2563EB"></span>#2563EB link vs #374151 body</td><td>1.99:1</td><td>10.31:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#0000EE"></span>#0000EE link vs #000000 body</td><td>2.23:1</td><td>21.00:1</td><td class="lt-fail">Fail — can never pass; underline required</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#551A8B"></span>#551A8B link vs #000000 body</td><td>1.91:1</td><td>21.00:1</td><td class="lt-fail">Fail — can never pass; underline required</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#60A5FA"></span>#60A5FA link vs #111827 body</td><td>6.98:1</td><td>17.74:1</td><td class="lt-fail">Fail — passes 3:1, fails 4.5:1 vs white (2.54:1)</td></tr>
+      </tbody>
+    </table>
+    <p>The last row is the tension in one line: the light blue that easily clears the 3:1 body test fails the 4.5:1 background test. You cannot fix both by sliding the link's lightness in either direction — one test improves exactly as the other worsens. The two honest exits are: darken the body text to #111827 or black (the #2563EB rows show the boundary is between #111827 and #1F2937), or underline the link and stop fighting the trade-off.</p>
+    <h2>Dark mode has the same tension, mirrored</h2>
+    <p>On a #121212 background with #E5E7EB body text, every common light link color passes 4.5:1 against the background and fails 3:1 against the body text. Dark-mode links need underlines too.</p>
+    <table class="lt-table">
+      <thead><tr><th>Link color</th><th>vs #121212 background</th><th>vs #E5E7EB body</th><th>Overall (no underline)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="lt-swatch" style="background:#93C5FD"></span>#93C5FD (blue-300)</td><td>10.39:1 — AAA</td><td>1.46:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#60A5FA"></span>#60A5FA (blue-400)</td><td>7.37:1 — AAA</td><td>2.05:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#38BDF8"></span>#38BDF8 (sky-400)</td><td>8.74:1 — AAA</td><td>1.73:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#F472B6"></span>#F472B6 (pink-400)</td><td>7.07:1 — AAA</td><td>2.14:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#34D399"></span>#34D399 (emerald-400)</td><td>9.74:1 — AAA</td><td>1.55:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#FBBF24"></span>#FBBF24 (amber-400)</td><td>11.22:1 — AAA</td><td>1.35:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#A78BFA"></span>#A78BFA (violet-400)</td><td>6.88:1 — AA</td><td>2.20:1</td><td class="lt-fail">Fail</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#3B82F6"></span>#3B82F6 (blue-500)</td><td>5.09:1 — AA</td><td>2.97:1</td><td class="lt-fail">Fail — just 0.03 short</td></tr>
+        <tr><td><span class="lt-swatch" style="background:#2563EB"></span>#2563EB (blue-600)</td><td>3.62:1</td><td>4.17:1</td><td class="lt-fail">Fail — the inverse: passes 3:1, fails 4.5:1 vs background</td></tr>
+      </tbody>
+    </table>
+    <p>Blue-500 #3B82F6 at 2.97:1 is the closest near-miss in this guide — three hundredths from passing. Do not round it up: the 3:1 line is inclusive at exactly 3.00, and 2.97 is a fail. The same table also shows the mirror image of the light-mode trap: blue-600 #2563EB passes the body test on dark (4.17:1) but fails the background test (3.62:1).</p>
+    <h2>How to fix a failing link</h2>
+    <ol>
+      <li><strong>Underline it.</strong> The cheapest, most robust fix — and the one browsers ship by default. An underline (or bold, icon, or border) satisfies WCAG 1.4.1 with no color requirement at all. If your design system removed underlines for looks, this tool is showing you what that cost.</li>
+      <li><strong>Darken the body text.</strong> With a blue-600 link, moving body text from #1F2937 to #111827 (2.84 → 3.43) crosses the line. Do not lighten the body text — that direction makes the link-vs-body ratio smaller.</li>
+      <li><strong>Check the visited state too.</strong> Visited purple #551A8B fails against black body text (1.91:1) even when your unvisited blue passes. Run the check with the visited color as well.</li>
+      <li><strong>Do not trust "it looks blue enough".</strong> #0000EE looks unmistakably like a link to a sighted reader — and measures 2.23:1 against black text. The number is the test, and the test exists for readers who cannot see the blue.</li>
+    </ol>
+    <h2>How the math works</h2>
+    <p>All three ratios use the same WCAG 2.1 formula as the <a href="/">main contrast checker</a>: relative luminance from linearized sRGB (weights 0.2126 red, 0.7152 green, 0.0722 blue), then (L1 + 0.05) / (L2 + 0.05). Thresholds are inclusive: exactly 4.50:1 passes AA, exactly 3.00:1 passes the G183 body-text test. The overall verdict requires link-vs-background ≥ 4.5:1 <em>and</em> (link-vs-body ≥ 3:1 or an underline). No uploads, no tracking: it all runs in your browser.</p>
+  </section>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>Isn't 4.5:1 enough for a link?</summary>
+      <p>No. 4.5:1 is only the link-versus-background test (WCAG 1.4.3). WCAG 1.4.1 separately requires the link to be distinguishable from the surrounding body text — a 3:1 color difference, or a non-color cue such as an underline. A link can pass 4.5:1 and still be invisible as a link to a color-blind reader.</p></details>
+    <details><summary>Does an underline really fix a failing link?</summary>
+      <p>Yes. Technique G183 lists underlining (and other non-color cues such as bold, an icon, or a border) as a valid way to distinguish links from surrounding text, with no color-difference requirement at all. That is exactly why browsers underline links by default — and why removing the underline creates a WCAG problem most teams never measure.</p></details>
+    <details><summary>Why does the classic blue link fail the test?</summary>
+      <p>The web's original link blue, #0000EE, measures 9.40:1 against white — AAA — but only 2.23:1 against black body text, below the 3:1 line. Even against pure black it cannot pass, so a classic blue link with no underline fails WCAG 1.4.1. The visited-link purple #551A8B is worse at 1.91:1 against black. Both need underlines (or a different link color).</p></details>
+    <details><summary>Can I pass both rules with color alone?</summary>
+      <p>Sometimes, but the window is narrow. The link's luminance must sit in a band: dark enough for 4.5:1 against the background, light enough for 3:1 against the body text. For example, blue-600 #2563EB passes both when the body text is #111827 or darker (3.43:1), but fails when the body is #1F2937 (2.84:1). Darkening the link helps the background test and hurts the body test; lightening the body text makes the body test worse, not better.</p></details>
+    <details><summary>Do dark-mode links have the same problem?</summary>
+      <p>Yes, mirrored. On a #121212 background with #E5E7EB body text, every common light link color fails the 3:1 link-vs-body test — #93C5FD is 1.46:1, #60A5FA 2.05:1, #FBBF24 1.35:1 — even though all of them pass 4.5:1 against the background. Dark-mode links need underlines too, or a much darker body text.</p></details>
+    <details><summary>Is my color data uploaded anywhere?</summary>
+      <p>No. Everything runs locally in your browser; no colors, no analytics, no tracking.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Link text contrast: WCAG 2.1 Success Criteria 1.4.1 (3:1 vs body text, or a non-color cue) and 1.4.3 (4.5:1 vs background).</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/palette-contrast-matrix">Palette Matrix</a> &middot; <a href="/apca-calculator">APCA Calculator</a> &middot; <a href="/non-text-contrast">Non-Text Checker</a> &middot; <a href="/link-text-contrast">Link Text Checker</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a> &middot; <a href="/wcag-contrast-ratio-explained">Ratio Guide</a> &middot; <a href="/fix-low-contrast">Fix Low Contrast</a> &middot; <a href="/dark-mode-contrast-guide">Dark Mode Guide</a></p>
+  </div>
+</footer>
+
+<script src="linktext.js"></script>
+</body>
+</html>
