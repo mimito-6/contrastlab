@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Color Finder — Find AA &amp; AAA Text Colors for Any Background | ContrastLab</title>
+<meta name="description" content="Free text color finder. Enter a background color and see which text colors pass WCAG AA (4.5:1) and AAA (7:1) from a curated palette — plus the closest passing alternative to your brand color.">
+<meta name="keywords" content="text color finder, accessible text color, wcag aa text color, aaa text color, text color for background, accessible color palette, contrast safe text color">
+<meta property="og:title" content="Text Color Finder | ContrastLab">
+<meta property="og:description" content="Enter a background color and see which text colors pass WCAG AA (4.5:1) and AAA (7:1) — plus the closest passing alternative to your brand color.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/text-color-finder">
+<link rel="canonical" href="https://contrast.mimito6.uk/text-color-finder">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.cf-inputs { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; margin: 16px 0; }
+.cf-inputs .color-card { flex: 1 1 220px; }
+.cf-presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
+.cf-preset { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.cf-preset:hover { border-color: var(--accent); }
+.cf-best { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; background: #fff; font-size: 16px; margin: 4px 0 16px; }
+.cf-counts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 16px 0; }
+.cf-stat { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #fff; }
+.cf-stat .v { font-size: 24px; font-weight: 800; letter-spacing: -.5px; }
+.cf-stat .k { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.cf-table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; }
+.cf-table th, .cf-table td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; background: #fff; }
+.cf-table th { font-size: 12px; color: var(--muted); }
+.cf-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--line); vertical-align: -2px; margin-right: 6px; }
+.cf-brand { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; background: #fff; font-size: 15px; margin: 4px 0 16px; line-height: 1.6; }
+.cf-preview { border: 1px solid var(--line); border-radius: 10px; padding: 28px 22px; margin: 16px 0; }
+.cf-preview p { font-size: 17px; line-height: 1.7; margin: 0; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ContrastLab Text Color Finder",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free text color finder: enter a background color and see which text colors pass WCAG AA (4.5:1) and AAA (7:1) from a curated palette, plus the closest passing alternative to your brand color."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "What counts as an AA or AAA text color?",
+     "acceptedAnswer": {"@type": "Answer", "text": "A text color passes AA when its contrast ratio against the background is at least 4.5:1 for normal text (WCAG 1.4.3), and AAA at 7:1 or higher. For large text (18pt+, or 14pt+ bold) the AA bar is 3:1. This tool sorts the palette into exactly those buckets, with inclusive boundaries: 7.00:1 is AAA, 4.50:1 is AA."}},
+    {"@type": "Question", "name": "Why does my brand color fail on white but pass on dark?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Contrast is a relationship, not a property of one color. A mid-light color such as blue-400 #60A5FA measures only 2.54:1 against white (fail) but 7.37:1 against a #121212 dark background (AAA). The same color is unusable in one place and excellent in the other — which is why the tool checks your color against your actual background instead of rating colors in isolation."}},
+    {"@type": "Question", "name": "How is the closest passing alternative chosen?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Among palette colors that reach AA (4.5:1) on your background, the tool picks the one nearest to your brand color in RGB space. It is a visual-similarity heuristic, not a WCAG concept: the ratio is the test, the distance is only the tie-break. For example, blue-400 #60A5FA (2.54:1 on white) maps to blue-600 #2563EB (5.17:1), the nearest AA blue."}},
+    {"@type": "Question", "name": "Why are there only 37 colors in the palette?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The palette is a curated starting set — neutrals plus one family per hue at several steps — chosen so every result is a color a design system actually uses. If your exact brand color is not in it, use the brand-color check: it tells you whether your color passes and, if not, the nearest passing color from the set."}},
+    {"@type": "Question", "name": "Can I use an AA color for body text and a large-text-only color for headings?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes — that is exactly what the 3:1 large-text bar is for. A color in the large-text-only bucket (3:1 to 4.5:1) is legal for headings at 18pt or larger, or 14pt bold and larger, but not for body text. The tool keeps the buckets separate so you do not accidentally use a heading-only color at body size."}},
+    {"@type": "Question", "name": "Is my color data uploaded anywhere?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Everything runs locally in your browser; no colors, no analytics, no tracking."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">Free text color finder</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker">Gradient Checker</a>
+      <a href="/palette-contrast-matrix">Palette Matrix</a>
+      <a href="/apca-calculator">APCA Calculator</a>
+      <a href="/non-text-contrast">Non-Text Checker</a>
+      <a href="/link-text-contrast">Link Text Checker</a>
+      <a href="/text-color-finder" class="active">Text Color Finder</a>
+      <a href="/text-over-gradient-guide">How-to Guide</a>
+      <a href="/wcag-contrast-ratio-explained">Ratio Guide</a>
+      <a href="/fix-low-contrast">Fix Low Contrast</a>
+      <a href="/dark-mode-contrast-guide">Dark Mode Guide</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Text color finder">
+    <h1 class="page-title">Text Color Finder</h1>
+    <p class="page-intro">Pick a background color. The tool scans a curated palette of 37 colors and tells you which ones pass <strong>WCAG AA (4.5:1)</strong> and <strong>AAA (7:1)</strong> as text on it — and, if your brand color fails, the closest passing alternative.</p>
+
+    <div class="cf-inputs">
+      <div class="color-card">
+        <label for="cfBg">Background color</label>
+        <div class="picker-row">
+          <input type="color" id="cfBg" value="#ffffff" aria-label="Background color picker">
+          <input type="text" id="cfBgHex" value="#ffffff" spellcheck="false" aria-label="Background color hex">
+        </div>
+      </div>
+      <div class="color-card">
+        <label for="cfBrand">Your brand color (optional)</label>
+        <div class="picker-row">
+          <input type="color" id="cfBrand" value="#60A5FA" aria-label="Brand color picker">
+          <input type="text" id="cfBrandHex" value="#60A5FA" spellcheck="false" aria-label="Brand color hex">
+        </div>
+      </div>
+    </div>
+    <div class="cf-presets">
+      <button class="cf-preset" type="button" data-g="#FFFFFF">White #FFFFFF</button>
+      <button class="cf-preset" type="button" data-g="#121212">Dark #121212</button>
+      <button class="cf-preset" type="button" data-g="#2563EB">Blue-600 #2563EB</button>
+      <button class="cf-preset" type="button" data-g="#F59E0B">Amber-500 #F59E0B</button>
+      <button class="cf-preset" type="button" data-g="#166534">Green-800 #166534</button>
+      <button class="cf-preset" type="button" data-g="#F3F4F6">Gray-100 #F3F4F6</button>
+    </div>
+    <p class="hint" id="cfNote"></p>
+
+    <h2 class="sub-h">Best pick</h2>
+    <div class="cf-best" id="cfBest">–</div>
+
+    <h2 class="sub-h">How the palette scores on this background</h2>
+    <div class="cf-counts" id="cfCounts"></div>
+
+    <h2 class="sub-h">Live preview — best pick on your background</h2>
+    <div class="cf-preview" id="cfPreview">
+      <p id="cfPreviewText">The quick brown fox jumps over the lazy dog. This paragraph is rendered in the best-pick color on your background, so what you see is what the top result actually looks like.</p>
+    </div>
+
+    <h2 class="sub-h">Your brand color</h2>
+    <div class="cf-brand" id="cfBrand">–</div>
+
+    <h2 class="sub-h">AAA colors (≥ 7:1) — safe for any text size</h2>
+    <table class="cf-table">
+      <thead><tr><th>Text color</th><th>Ratio</th><th>Level</th></tr></thead>
+      <tbody id="cfAaa"></tbody>
+    </table>
+
+    <h2 class="sub-h">AA colors (4.5–7:1) — fine for normal text</h2>
+    <table class="cf-table">
+      <thead><tr><th>Text color</th><th>Ratio</th><th>Level</th></tr></thead>
+      <tbody id="cfAa"></tbody>
+    </table>
+
+    <h2 class="sub-h">Large-text-only colors (3–4.5:1) — headings only</h2>
+    <table class="cf-table">
+      <thead><tr><th>Text color</th><th>Ratio</th><th>Level</th></tr></thead>
+      <tbody id="cfLarge"></tbody>
+    </table>
+    <p class="hint">Large text means 18pt (24px) or larger, or 14pt (18.66px) bold or larger. Anything below 3:1 is not listed — it fails even the large-text bar.</p>
+  </section>
+
+  <section class="guide" aria-label="Guide">
+    <h2>On white: 9 AAA colors, but the grays run out fast</h2>
+    <p>Against white, the palette splits into <strong>9 AAA</strong>, <strong>12 AA</strong>, <strong>7 large-text-only</strong> and <strong>9 failing</strong> colors. The AAA set is almost entirely dark neutrals — black (21.00:1), slate-900 (17.85:1), gray-900 (17.74:1), gray-800 (14.68:1), slate-800 (14.63:1), gray-700 (10.31:1), gray-600 (7.56:1) — plus two hues that are dark enough: green-800 (7.13:1) and purple-700 (7.10:1). Gray-500 at 4.83:1 is the last gray that passes AA at all; gray-400 at 2.54:1 is already a fail. That is the cliff every gray scale hides: one step (500 → 400) drops you from AA to unusable.</p>
+    <h2>The same palette, flipped: dark backgrounds invert the answer</h2>
+    <p>Against #121212 the counts are the same shape — <strong>9 AAA, 6 AA, 11 large-text-only, 11 failing</strong> — but the members are the mirror image. White is the best pick (18.73:1), gray-100 (17.02:1) and gray-200 (15.13:1) follow, and the hues that failed on white now lead: blue-300 (10.39:1), amber-500 (8.72:1), green-500 (8.22:1), blue-400 (7.37:1). Meanwhile blue-700, the AA workhorse on white (6.70:1), drops to 2.80:1 on dark — a fail. The lesson is the tool's whole point: a color's accessibility is not a property of the color. It is a property of the pair, and the pair flips when the background does.</p>
+    <h2>Closest alternatives that keep your hue</h2>
+    <p>When a brand color fails, the nearest passing palette color usually keeps the same hue family — it is just a darker or lighter step of it. Blue-400 #60A5FA fails on white at 2.54:1; the closest AA color is blue-600 #2563EB at 5.17:1. Amber-500 #F59E0B fails on white at 2.15:1; the closest AA color is amber-700 #B45309 at 5.02:1. Both fixes are one hue family away, not a different color — which is why "closest by RGB distance" is a useful default, and why the tool shows the ratio next to it so you can judge the trade-off yourself.</p>
+    <h2>How to use the results</h2>
+    <ol>
+      <li><strong>Body text:</strong> pick from the AAA list when you can — it removes all size exceptions. The AA list is fine for normal text too.</li>
+      <li><strong>Headings:</strong> the large-text-only list is legal at 18pt+ (or 14pt+ bold), and only there. Do not let a heading color leak into body copy.</li>
+      <li><strong>Brand colors:</strong> if your brand color fails, take the closest passing alternative for text and keep the original for large graphics, icons and non-text elements, where the bar is 3:1, not 4.5:1.</li>
+      <li><strong>Do not trust "it looks dark enough".</strong> Gray-500 (4.83:1) and gray-400 (2.54:1) look one step apart and sit on opposite sides of the AA line. The number is the test.</li>
+    </ol>
+    <h2>How the math works</h2>
+    <p>Every ratio uses the same WCAG 2.1 formula as the <a href="/">main contrast checker</a>: relative luminance from linearized sRGB (weights 0.2126 red, 0.7152 green, 0.0722 blue), then (L1 + 0.05) / (L2 + 0.05). Thresholds are inclusive: exactly 7.00:1 is AAA, exactly 4.50:1 is AA, exactly 3.00:1 passes the large-text bar. The "closest alternative" is the palette color with the smallest RGB distance among those reaching AA — a similarity heuristic, not a WCAG rule. No uploads, no tracking: it all runs in your browser.</p>
+  </section>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>What counts as an AA or AAA text color?</summary>
+      <p>A text color passes AA when its contrast ratio against the background is at least 4.5:1 for normal text (WCAG 1.4.3), and AAA at 7:1 or higher. For large text (18pt+, or 14pt+ bold) the AA bar is 3:1. This tool sorts the palette into exactly those buckets, with inclusive boundaries: 7.00:1 is AAA, 4.50:1 is AA.</p></details>
+    <details><summary>Why does my brand color fail on white but pass on dark?</summary>
+      <p>Contrast is a relationship, not a property of one color. A mid-light color such as blue-400 #60A5FA measures only 2.54:1 against white (fail) but 7.37:1 against a #121212 dark background (AAA). The same color is unusable in one place and excellent in the other — which is why the tool checks your color against your actual background instead of rating colors in isolation.</p></details>
+    <details><summary>How is the closest passing alternative chosen?</summary>
+      <p>Among palette colors that reach AA (4.5:1) on your background, the tool picks the one nearest to your brand color in RGB space. It is a visual-similarity heuristic, not a WCAG concept: the ratio is the test, the distance is only the tie-break. For example, blue-400 #60A5FA (2.54:1 on white) maps to blue-600 #2563EB (5.17:1), the nearest AA blue.</p></details>
+    <details><summary>Why are there only 37 colors in the palette?</summary>
+      <p>The palette is a curated starting set — neutrals plus one family per hue at several steps — chosen so every result is a color a design system actually uses. If your exact brand color is not in it, use the brand-color check: it tells you whether your color passes and, if not, the nearest passing color from the set.</p></details>
+    <details><summary>Can I use an AA color for body text and a large-text-only color for headings?</summary>
+      <p>Yes — that is exactly what the 3:1 large-text bar is for. A color in the large-text-only bucket (3:1 to 4.5:1) is legal for headings at 18pt or larger, or 14pt bold and larger, but not for body text. The tool keeps the buckets separate so you do not accidentally use a heading-only color at body size.</p></details>
+    <details><summary>Is my color data uploaded anywhere?</summary>
+      <p>No. Everything runs locally in your browser; no colors, no analytics, no tracking.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Text color finder: WCAG 2.1 Success Criterion 1.4.3 (4.5:1 AA, 7:1 AAA) and 1.4.4 large-text rules.</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/palette-contrast-matrix">Palette Matrix</a> &middot; <a href="/apca-calculator">APCA Calculator</a> &middot; <a href="/non-text-contrast">Non-Text Checker</a> &middot; <a href="/link-text-contrast">Link Text Checker</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a> &middot; <a href="/wcag-contrast-ratio-explained">Ratio Guide</a> &middot; <a href="/fix-low-contrast">Fix Low Contrast</a> &middot; <a href="/dark-mode-contrast-guide">Dark Mode Guide</a></p>
+  </div>
+</footer>
+
+<script src="finder.js"></script>
+</body>
+</html>
