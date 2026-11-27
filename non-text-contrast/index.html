@@ -88,6 +88,7 @@
       <a href="/fix-low-contrast">Fix Low Contrast</a>
       <a href="/dark-mode-contrast-guide">Dark Mode Guide</a>
           <a href="/text-color-finder">Text Color Finder</a>
+          <a href="/focus-indicator-contrast">Focus Ring Checker</a>
     </nav>
   </div>
 </header>
@@ -213,7 +214,7 @@
         <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB ring vs #EFF6FF card</td><td>4.75:1</td><td class="nt-pass">Pass</td><td>Even on a pale blue card the ring holds up.</td></tr>
       </tbody>
     </table>
-    <p>The robust fix is a <strong>double ring</strong>: a white inner ring plus a dark outer ring (or the reverse). One of the two always contrasts with whatever sits on either side. WCAG 2.2 additionally asks the indicator to cover an area at least as large as a 2px perimeter of the component — this tool checks color only, so keep the ring thick enough as well as contrasting enough.</p>
+    <p>The robust fix is a <strong>double ring</strong>: a white inner ring plus a dark outer ring (or the reverse). One of the two always contrasts with whatever sits on either side. WCAG 2.2 additionally asks the indicator to cover an area at least as large as a 2px perimeter of the component — this tool checks color only, so keep the ring thick enough as well as contrasting enough. To check both the color and the area of your ring, use the <a href="/focus-indicator-contrast">Focus Indicator Contrast Checker</a>.</p>
     <h2>How to fix a failing component</h2>
     <ol>
       <li><strong>Go one shade darker (or lighter on dark).</strong> The fix is almost always a single step in your scale: gray-400 → gray-500 (2.54 → 4.83), slate-300 → slate-400 still fails (1.48 → 2.56), so for borders go two steps: slate-300 → slate-500 (1.48 → 4.76).</li>
@@ -245,7 +246,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <p>ContrastLab — a free tool for accessible design. Non-text contrast: WCAG 2.1 Success Criterion 1.4.11 (3:1 against adjacent colors).</p>
-    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/palette-contrast-matrix">Palette Matrix</a> &middot; <a href="/apca-calculator">APCA Calculator</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a> &middot; <a href="/wcag-contrast-ratio-explained">Ratio Guide</a> &middot; <a href="/fix-low-contrast">Fix Low Contrast</a> &middot; <a href="/dark-mode-contrast-guide">Dark Mode Guide</a> &middot; <a href="/text-color-finder">Text Color Finder</a></p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/palette-contrast-matrix">Palette Matrix</a> &middot; <a href="/apca-calculator">APCA Calculator</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a> &middot; <a href="/wcag-contrast-ratio-explained">Ratio Guide</a> &middot; <a href="/fix-low-contrast">Fix Low Contrast</a> &middot; <a href="/dark-mode-contrast-guide">Dark Mode Guide</a> &middot; <a href="/text-color-finder">Text Color Finder</a> &middot; <a href="/focus-indicator-contrast">Focus Ring Checker</a></p>
   </div>
 </footer>
 
