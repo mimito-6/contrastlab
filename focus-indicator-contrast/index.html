@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focus Indicator Contrast Checker — WCAG 2.2 Focus Appearance (3:1 + 2px Area) | ContrastLab</title>
+<meta name="description" content="Free focus indicator contrast checker. Check your focus ring against WCAG 2.2 Success Criterion 2.4.13 Focus Appearance — 3:1 against both the component and the page, plus the 2 CSS pixel perimeter area rule — with a live preview.">
+<meta name="keywords" content="focus indicator contrast checker, wcag 2.4.13, focus appearance, focus ring contrast, focus visible checker, keyboard focus indicator, 3:1 focus ring">
+<meta property="og:title" content="Focus Indicator Contrast Checker | ContrastLab">
+<meta property="og:description" content="Check your focus ring against WCAG 2.2 Focus Appearance — 3:1 against both neighbors, plus the 2px perimeter area rule — with a live preview.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://contrast.mimito6.uk/focus-indicator-contrast">
+<link rel="canonical" href="https://contrast.mimito6.uk/focus-indicator-contrast">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.nt-inputs { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; margin: 16px 0; }
+.nt-inputs .color-card { flex: 1 1 220px; }
+.nt-swap { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 10px 14px; font-size: 14px; font-weight: 700; cursor: pointer; margin-bottom: 4px; }
+.nt-swap:hover { border-color: var(--accent); }
+.nt-presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
+.nt-preset { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.nt-preset:hover { border-color: var(--accent); }
+.fc-size { display: flex; flex-wrap: wrap; gap: 16px; margin: 4px 0 16px; }
+.fc-size .size-field { flex: 1 1 140px; }
+.fc-size label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.fc-size input[type="number"] { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+.nt-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 16px 0; }
+.nt-stat { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #fff; }
+.nt-stat .v { font-size: 24px; font-weight: 800; letter-spacing: -.5px; }
+.nt-stat .k { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.nt-table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; }
+.nt-table th, .nt-table td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; background: #fff; }
+.nt-table th { font-size: 12px; color: var(--muted); }
+.nt-pass { color: #15803d; font-weight: 700; }
+.nt-fail { color: #b91c1c; font-weight: 700; }
+.nt-preview { border: 1px solid var(--line); border-radius: 10px; padding: 40px 22px; margin: 16px 0; display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: center; }
+.nt-preview .pv-item { display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.nt-preview .pv-label { font-size: 12px; color: var(--muted); }
+.nt-preview .pv-focus { padding: 10px 18px; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.nt-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--line); vertical-align: -2px; margin-right: 6px; }
+.fc-overall { border: 2px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 16px 0; background: #fff; font-size: 18px; font-weight: 800; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ContrastLab Focus Indicator Contrast Checker",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free focus indicator contrast checker: check a focus ring against WCAG 2.2 Success Criterion 2.4.13 Focus Appearance — 3:1 against both the component and the page, plus the 2 CSS pixel perimeter area rule — with a live preview."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Is this the same as WCAG 1.4.11 non-text contrast?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. WCAG 2.1 Success Criterion 1.4.11 only asks for 3:1 against adjacent colors. WCAG 2.2 Success Criterion 2.4.13 Focus Appearance keeps the 3:1 rule and adds an area rule: the indicator must cover at least as much area as a 2 CSS pixel thick perimeter of the component. A ring can pass 1.4.11 on color and still fail 2.4.13 on thickness."}},
+    {"@type": "Question", "name": "My browser already draws a focus outline — do I need to check it?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes. Browser defaults vary — usually a 2 px outline, but the color depends on the browser and operating system (often blue, sometimes black). And many sites remove the default with outline: none, which leaves keyboard users with no visible focus at all. Check the color your users actually see."}},
+    {"@type": "Question", "name": "What if my focus ring is offset from the component?",
+     "acceptedAnswer": {"@type": "Answer", "text": "An offset ring covers more area, not less, so the area rule gets easier — this tool assumes offset 0, the conservative case. The gap between component and ring is page-colored, so the ring still needs 3:1 against the page. Checking both neighbors, as this tool does, never hurts."}},
+    {"@type": "Question", "name": "Does the ring need 3:1 against the text inside the button?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. The focus indicator is only measured against its adjacent colors — the component fill and the page. Text contrast is a separate rule, WCAG 1.4.3 (4.5:1 for normal text), covered by the main contrast checker."}},
+    {"@type": "Question", "name": "What is Focus Not Obscured (WCAG 2.4.11)?",
+     "acceptedAnswer": {"@type": "Answer", "text": "A separate WCAG 2.2 criterion: when a component receives keyboard focus, at least part of it must stay visible — a sticky header or overlay must not cover it entirely. It is not a color or area number, so no calculator can test it: tab through the page and look."}},
+    {"@type": "Question", "name": "Is my color data uploaded anywhere?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Everything runs locally in your browser; no colors, no analytics, no tracking."}}
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand"><a href="/" class="brand-link">ContrastLab</a></div>
+    <p class="tagline">Free focus indicator contrast checker</p>
+    <nav class="site-nav" aria-label="Tools">
+      <a href="/">Contrast Checker</a>
+      <a href="/color-blindness-simulator">Color Blindness Simulator</a>
+      <a href="/palette-generator">Palette Generator</a>
+      <a href="/gradient-checker">Gradient Checker</a>
+      <a href="/palette-contrast-matrix">Palette Matrix</a>
+      <a href="/apca-calculator">APCA Calculator</a>
+      <a href="/non-text-contrast">Non-Text Checker</a>
+      <a href="/link-text-contrast">Link Text Checker</a>
+      <a href="/focus-indicator-contrast" class="active">Focus Ring Checker</a>
+      <a href="/text-over-gradient-guide">How-to Guide</a>
+      <a href="/wcag-contrast-ratio-explained">Ratio Guide</a>
+      <a href="/fix-low-contrast">Fix Low Contrast</a>
+      <a href="/dark-mode-contrast-guide">Dark Mode Guide</a>
+      <a href="/text-color-finder">Text Color Finder</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Focus indicator contrast checker">
+    <h1 class="page-title">Focus Indicator Contrast Checker</h1>
+    <p class="page-intro">A visible focus ring is how keyboard users know where they are. WCAG 2.2 Success Criterion 2.4.13 <strong>Focus Appearance</strong> (AA) asks two things of it: at least <strong>3:1</strong> against <strong>both</strong> adjacent colors — the component it surrounds <em>and</em> the page behind it — and an area at least as large as a <strong>2 CSS pixel thick perimeter</strong> of the component. Enter your ring, your component, and your page, and see whether the ring actually shows up.</p>
+
+    <div class="nt-inputs">
+      <div class="color-card">
+        <label for="fcRing">Focus ring color</label>
+        <div class="picker-row">
+          <input type="color" id="fcRing" value="#2563EB" aria-label="Focus ring color picker">
+          <input type="text" id="fcRingHex" value="#2563EB" spellcheck="false" aria-label="Focus ring color hex">
+        </div>
+      </div>
+      <button id="fcSwap" class="nt-swap" type="button" title="Swap ring and component colors">&#8646; Swap</button>
+      <div class="color-card">
+        <label for="fcComp">Component fill (button / input)</label>
+        <div class="picker-row">
+          <input type="color" id="fcComp" value="#ffffff" aria-label="Component fill color picker">
+          <input type="text" id="fcCompHex" value="#ffffff" spellcheck="false" aria-label="Component fill color hex">
+        </div>
+      </div>
+      <div class="color-card">
+        <label for="fcPage">Page background</label>
+        <div class="picker-row">
+          <input type="color" id="fcPage" value="#ffffff" aria-label="Page background color picker">
+          <input type="text" id="fcPageHex" value="#ffffff" spellcheck="false" aria-label="Page background color hex">
+        </div>
+      </div>
+    </div>
+
+    <div class="fc-size">
+      <div class="size-field">
+        <label for="fcWidth">Component width (px)</label>
+        <input type="number" id="fcWidth" value="120" min="1" max="2000" step="1">
+      </div>
+      <div class="size-field">
+        <label for="fcHeight">Component height (px)</label>
+        <input type="number" id="fcHeight" value="40" min="1" max="2000" step="1">
+      </div>
+      <div class="size-field">
+        <label for="fcThick">Ring thickness (px)</label>
+        <input type="number" id="fcThick" value="2" min="0" max="20" step="1">
+      </div>
+    </div>
+
+    <div class="nt-presets">
+      <button class="fc-preset nt-preset" type="button" data-r="#2563EB" data-c="#FFFFFF" data-p="#FFFFFF" data-t="2">Blue ring, white button, white page</button>
+      <button class="fc-preset nt-preset" type="button" data-r="#2563EB" data-c="#1D4ED8" data-p="#FFFFFF" data-t="2">Blue ring on blue button</button>
+      <button class="fc-preset nt-preset" type="button" data-r="#93C5FD" data-c="#2563EB" data-p="#FFFFFF" data-t="2">Light ring on blue button</button>
+      <button class="fc-preset nt-preset" type="button" data-r="#FFFFFF" data-c="#1F2937" data-p="#FFFFFF" data-t="2">White ring, dark button, white page</button>
+      <button class="fc-preset nt-preset" type="button" data-r="#60A5FA" data-c="#1F2937" data-p="#111827" data-t="2">Dark mode: sky ring, dark button</button>
+      <button class="fc-preset nt-preset" type="button" data-r="#2563EB" data-c="#FFFFFF" data-p="#FFFFFF" data-t="1">Same as first, but a 1 px ring</button>
+    </div>
+    <p class="hint" id="fcNote"></p>
+
+    <h2 class="sub-h">Result — WCAG 2.2 Focus Appearance (2.4.13)</h2>
+    <div class="nt-results">
+      <div class="nt-stat"><div class="v" id="fcRatioComp">–</div><div class="k">Ring vs component</div></div>
+      <div class="nt-stat"><div class="v" id="fcVerdictComp">–</div><div class="k">Verdict at 3:1</div></div>
+      <div class="nt-stat"><div class="v" id="fcRatioPage">–</div><div class="k">Ring vs page</div></div>
+      <div class="nt-stat"><div class="v" id="fcVerdictPage">–</div><div class="k">Verdict at 3:1</div></div>
+      <div class="nt-stat"><div class="v" id="fcArea" style="font-size:18px;line-height:1.4">–</div><div class="k">Indicator area</div></div>
+      <div class="nt-stat"><div class="v" id="fcRequired" style="font-size:18px;line-height:1.4">–</div><div class="k">Required area (2 px perimeter)</div></div>
+      <div class="nt-stat"><div class="v" id="fcAreaVerdict">–</div><div class="k">Area verdict</div></div>
+    </div>
+    <div class="fc-overall" id="fcOverall">–</div>
+
+    <h2 class="sub-h">Live preview</h2>
+    <div class="nt-preview" id="fcPreview">
+      <div class="pv-item">
+        <span class="pv-label">Focused button (your ring, your colors, your thickness)</span>
+        <button class="pv-focus" id="fcPreviewBtn" type="button">Focused button</button>
+      </div>
+    </div>
+    <p class="hint">The preview shows the ring exactly as entered — thickness included. If you can barely see it here, keyboard users will barely see it on your site.</p>
+  </section>
+
+  <section class="guide" aria-label="Guide">
+    <h2>The two rules of WCAG 2.4.13</h2>
+    <p>Focus Appearance (WCAG 2.2, level AA) has a color rule and an area rule, and a ring must pass <strong>both</strong>:</p>
+    <ol>
+      <li><strong>Color — 3:1 against adjacent colors.</strong> The indicator must reach 3:1 against every color it touches. A focus ring touches two: the component it surrounds and the page behind it. Checking only one side is the most common way a "passing" ring ships broken.</li>
+      <li><strong>Area — at least a 2 px perimeter.</strong> The indicator must cover an area at least as large as a 2 CSS pixel thick band around the component. For a W &times; H component that is 4(W+H) + 16 px². A 2 px outline lands exactly on that number; a 1 px outline always falls short, however large the component.</li>
+    </ol>
+    <p>Note the threshold is inclusive: exactly 3.00:1 passes, and exactly the required area passes. This tool checks color only against the two colors you enter and area only for a rectangular component with the ring hugging it (outline-offset 0 — the conservative case; an offset ring covers more area, not less).</p>
+
+    <h2>Focus rings on white</h2>
+    <p>On a white page with a white button, the two checks collapse into one number — and the usual suspects fail it.</p>
+    <table class="nt-table">
+      <thead><tr><th>Ring color</th><th>Ratio vs white</th><th>Verdict</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB (blue-600)</td><td>5.17:1</td><td class="nt-pass">Pass</td><td>A safe default focus-ring blue.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#1D4ED8"></span>#1D4ED8 (blue-700)</td><td>6.70:1</td><td class="nt-pass">Pass</td><td>Darker blue, even safer.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#000000"></span>#000000 (black)</td><td>21.00:1</td><td class="nt-pass">Pass</td><td>Maximum contrast — the fallback that always works.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#93C5FD"></span>#93C5FD (blue-300)</td><td>1.80:1</td><td class="nt-fail">Fail</td><td>A light ring on white is nearly invisible.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#60A5FA"></span>#60A5FA (blue-400)</td><td>2.54:1</td><td class="nt-fail">Fail</td><td>Bright blue is not automatically visible on white.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#F59E0B"></span>#F59E0B (amber-500)</td><td>2.15:1</td><td class="nt-fail">Fail</td><td>Warning amber needs a darker shade on white.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>The blue-button trap</h2>
+    <p>The classic failure is a blue ring on a blue button: it passes against the page and vanishes against the control. The same ring can pass one side and fail the other in either direction — the white ring is the mirror image.</p>
+    <table class="nt-table">
+      <thead><tr><th>Ring vs…</th><th>Ratio</th><th>Verdict</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB ring vs white page</td><td>5.17:1</td><td class="nt-pass">Pass</td><td>Against the page, the ring is clearly visible.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB ring vs #1D4ED8 button</td><td>1.30:1</td><td class="nt-fail">Fail</td><td>Same ring, same button family — invisible where it meets the control.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB ring vs #1F2937 button</td><td>2.84:1</td><td class="nt-fail">Fail</td><td>Blue on dark gray misses by 0.16 — no rounding, 2.84 is a fail.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#93C5FD"></span>#93C5FD ring vs #2563EB button</td><td>2.87:1</td><td class="nt-fail">Fail</td><td>A light ring on a blue button still falls short of 3:1.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#93C5FD"></span>#93C5FD ring vs white page</td><td>1.80:1</td><td class="nt-fail">Fail</td><td>The same light ring fails the page side too — it fails everywhere.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#FFFFFF"></span>#FFFFFF ring vs #2563EB button</td><td>5.17:1</td><td class="nt-pass">Pass</td><td>A white ring on the blue button passes — pair it with a dark outer ring for the page side.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#FFFFFF"></span>#FFFFFF ring vs white page</td><td>1.00:1</td><td class="nt-fail">Fail</td><td>The mirror image: the white ring vanishes against the white page.</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB ring vs #EFF6FF card</td><td>4.75:1</td><td class="nt-pass">Pass</td><td>Even on a pale blue card the ring holds up.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Dark mode: the same rings, the opposite verdicts</h2>
+    <p>Contrast is always relative. The light rings that fail on white pass easily on dark — and the blue ring that passes on white fails against a dark button.</p>
+    <table class="nt-table">
+      <thead><tr><th>Ring color</th><th>vs #111827 page</th><th>vs #1F2937 button</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><span class="nt-swatch" style="background:#60A5FA"></span>#60A5FA (blue-400)</td><td>6.98:1</td><td>5.77:1</td><td class="nt-pass">Pass / Pass</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#93C5FD"></span>#93C5FD (blue-300)</td><td>9.84:1</td><td>8.14:1</td><td class="nt-pass">Pass / Pass</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#FBBF24"></span>#FBBF24 (amber-400)</td><td>10.63:1</td><td>8.79:1</td><td class="nt-pass">Pass / Pass</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#38BDF8"></span>#38BDF8 (sky-400)</td><td>8.28:1</td><td>6.85:1</td><td class="nt-pass">Pass / Pass</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#34D399"></span>#34D399 (emerald-400)</td><td>9.23:1</td><td>7.64:1</td><td class="nt-pass">Pass / Pass</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#FFFFFF"></span>#FFFFFF (white)</td><td>17.74:1</td><td>14.68:1</td><td class="nt-pass">Pass / Pass</td></tr>
+        <tr><td><span class="nt-swatch" style="background:#2563EB"></span>#2563EB (blue-600)</td><td>3.43:1</td><td>2.84:1</td><td class="nt-fail">Pass / Fail</td></tr>
+      </tbody>
+    </table>
+    <p>The last row is the trap in reverse: the standard blue ring passes the dark page (3.43) but fails the dark button (2.84). In dark mode, reach for the lighter blues — #60A5FA and #93C5FD both pass on both sides.</p>
+
+    <h2>The area rule, in numbers</h2>
+    <p>Required area = 4(W+H) + 16 px². A 2 px outline always lands exactly on it; a 1 px outline always falls short; 3 px clears it with room to spare. The thickness rule is really an "at least 2 px" rule, stated as an area so non-rectangular indicators can be judged the same way.</p>
+    <table class="nt-table">
+      <thead><tr><th>Component</th><th>Required area</th><th>1 px ring</th><th>2 px ring</th><th>3 px ring</th></tr></thead>
+      <tbody>
+        <tr><td>120 &times; 40 button</td><td>656 px²</td><td class="nt-fail">324 px² — Fail</td><td class="nt-pass">656 px² — Pass</td><td class="nt-pass">996 px² — Pass</td></tr>
+        <tr><td>32 &times; 32 icon button</td><td>272 px²</td><td class="nt-fail">132 px² — Fail</td><td class="nt-pass">272 px² — Pass</td><td class="nt-pass">420 px² — Pass</td></tr>
+        <tr><td>200 &times; 48 button</td><td>1,008 px²</td><td class="nt-fail">500 px² — Fail</td><td class="nt-pass">1,008 px² — Pass</td><td class="nt-pass">1,524 px² — Pass</td></tr>
+        <tr><td>100 &times; 36 input</td><td>560 px²</td><td class="nt-fail">276 px² — Fail</td><td class="nt-pass">560 px² — Pass</td><td class="nt-pass">852 px² — Pass</td></tr>
+      </tbody>
+    </table>
+
+    <h2>How to fix a failing focus ring</h2>
+    <ol>
+      <li><strong>Use a double ring.</strong> A white inner ring plus a dark outer ring (or the reverse) — one of the two always contrasts with whatever sits on either side. It is the only fix that works no matter what the button and page colors are.</li>
+      <li><strong>Go one shade darker on light pages, one shade lighter on dark pages.</strong> #60A5FA → #2563EB on white (2.54 → 5.17); #2563EB → #60A5FA on dark (2.84 → 5.77 against a dark button).</li>
+      <li><strong>Make it at least 2 px thick.</strong> The browser default <code>:focus-visible</code> outline is usually 2 px — if your design system thins it to 1 px for looks, it fails the area rule even with a perfect color.</li>
+      <li><strong>Never remove the outline without a replacement.</strong> <code>outline: none</code> with no custom indicator is not a style choice; it removes the only way keyboard users can see where they are. If you restyle focus, replace it with something that passes this check.</li>
+      <li><strong>Check the real adjacent colors.</strong> A ring that passes on the page can fail on a tinted card or a colored button — run the check with the component's actual fill, not an assumed white.</li>
+    </ol>
+    <h2>How the math works</h2>
+    <p>Color: the standard WCAG 2.1 ratio — relative luminance from linearized sRGB (weights 0.2126 red, 0.7152 green, 0.0722 blue), then (L1 + 0.05) / (L2 + 0.05) — checked twice, once per neighbor, against the 3:1 line. Area: a t px outline around a W &times; H rectangle covers (W+2t)(H+2t) − W&times;H = 2t(W+H) + 4t² px²; the required area is that formula at t = 2. No uploads, no tracking: it all runs in your browser. For the 3:1 rule on icons and borders generally, see the <a href="/non-text-contrast">non-text contrast checker</a>; for link colors, the <a href="/link-text-contrast">link text checker</a>.</p>
+  </section>
+
+  <section class="faq" aria-label="FAQ">
+    <h2>FAQ</h2>
+    <details><summary>Is this the same as WCAG 1.4.11 non-text contrast?</summary>
+      <p>No. WCAG 2.1 Success Criterion 1.4.11 only asks for 3:1 against adjacent colors. WCAG 2.2 Success Criterion 2.4.13 Focus Appearance keeps the 3:1 rule and adds an area rule: the indicator must cover at least as much area as a 2 CSS pixel thick perimeter of the component. A ring can pass 1.4.11 on color and still fail 2.4.13 on thickness — check both with the <a href="/non-text-contrast">non-text contrast checker</a> if you only need the color side.</p></details>
+    <details><summary>My browser already draws a focus outline — do I need to check it?</summary>
+      <p>Yes. Browser defaults vary — usually a 2 px outline, but the color depends on the browser and operating system (often blue, sometimes black). And many sites remove the default with <code>outline: none</code>, which leaves keyboard users with no visible focus at all. Check the color your users actually see.</p></details>
+    <details><summary>What if my focus ring is offset from the component?</summary>
+      <p>An offset ring covers more area, not less, so the area rule gets easier — this tool assumes offset 0, the conservative case. The gap between component and ring is page-colored, so the ring still needs 3:1 against the page. Checking both neighbors, as this tool does, never hurts.</p></details>
+    <details><summary>Does the ring need 3:1 against the text inside the button?</summary>
+      <p>No. The focus indicator is only measured against its adjacent colors — the component fill and the page. Text contrast is a separate rule, WCAG 1.4.3 (4.5:1 for normal text), covered by the <a href="/">contrast checker</a>.</p></details>
+    <details><summary>What is Focus Not Obscured (WCAG 2.4.11)?</summary>
+      <p>A separate WCAG 2.2 criterion: when a component receives keyboard focus, at least part of it must stay visible — a sticky header or overlay must not cover it entirely. It is not a color or area number, so no calculator can test it: tab through the page and look.</p></details>
+    <details><summary>Is my color data uploaded anywhere?</summary>
+      <p>No. Everything runs locally in your browser; no colors, no analytics, no tracking.</p></details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ContrastLab — a free tool for accessible design. Focus indicator contrast: WCAG 2.2 Success Criterion 2.4.13 Focus Appearance (3:1 against adjacent colors + 2px perimeter area).</p>
+    <p class="footer-tools">More tools: <a href="/">Contrast Checker</a> &middot; <a href="/color-blindness-simulator">Color Blindness Simulator</a> &middot; <a href="/palette-generator">Palette Generator</a> &middot; <a href="/gradient-checker">Gradient Checker</a> &middot; <a href="/palette-contrast-matrix">Palette Matrix</a> &middot; <a href="/apca-calculator">APCA Calculator</a> &middot; <a href="/non-text-contrast">Non-Text Checker</a> &middot; <a href="/link-text-contrast">Link Text Checker</a> &middot; <a href="/text-over-gradient-guide">Text-over-Gradient Guide</a> &middot; <a href="/wcag-contrast-ratio-explained">Ratio Guide</a> &middot; <a href="/fix-low-contrast">Fix Low Contrast</a> &middot; <a href="/dark-mode-contrast-guide">Dark Mode Guide</a> &middot; <a href="/text-color-finder">Text Color Finder</a></p>
+  </div>
+</footer>
+
+<script src="focus.js"></script>
+</body>
+</html>
